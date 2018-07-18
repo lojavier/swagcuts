@@ -14,36 +14,16 @@ class TextComponent
     	var m_backgroundNonFocusColor = backgroundnonfocuscolor;
     	var m_backgroundFocusColor = backgroundfocuscolor;
     	var m_align = alignment;
-    	var m_style;
+    	var m_scaleText = 1;
     	var m_textStyle;
-    	var m_colorLerpTicker = 0;
-	    var m_pixiText;
-	    var m_textSprite;
-	    var m_scaleText = 1;
-	    var m_fadeText = false;
+    	var m_pixiText;
 
-    	// this.getText = function(text, width)
-	    // {
-     //        width -= 10;
-     //        var textMetrics = PIXI.TextMetrics.measureText(text, m_style);
-     //        if (textMetrics.width > width * m_scaleText) {
-     //            var len = text.length * width * m_scaleText / textMetrics.width;
-     //            if (len > 2)
-     //            {
-     //                m_style.fill = [m_nonFocusColor , backgroundNonfocuscolor];
-     //                m_style.fillGradientStops = [0.9, 1.0];
-     //                m_style.fillGradientType = 2;
-     //                m_fadeText = true;
-     //                return text.slice(0, len-2);
-     //            }
-     //        }
-     //        else
-     //            return text;
-	    // };
+    	var m_colorLerpTicker = 0;
+	    var m_fadeText = false;
+	    var m_style;
 
 	    this.getText = function()
 	    {
-	    	// return m_textStyle;
 	    	return m_pixiText;
 	    };
 
@@ -56,32 +36,30 @@ class TextComponent
                 fill: m_nonFocusColor,
                 align: m_align,
             });
-	        // var text = this.getText(m_text, m_width);
+
 	        m_pixiText = new PIXI.Text(m_text, m_textStyle);
-
-	        var posX = m_posX;
-	   //      if(m_align == 'right')
-	   //      {
-				// posX = m_width - m_posX - this.getWidth();
-	   //      }
-	   //      else if(m_align == 'center')
-	   //      {
-				// posX = (m_width - this.getWidth())/2;
-	   //      }
-
-	        m_pixiText.x = posX;
+	        m_pixiText.x = m_posX;
 	        m_pixiText.y = m_posY;
+
+	        if(m_align == 'right')
+	        {
+				m_pixiText.anchor.set(1, 0.5);
+	        }
+	        else if(m_align == 'center')
+	        {
+				m_pixiText.anchor.set(0.5, 0.5);
+	        }
 	    };
 
 	    this.getHeight = function()
 	    {
-	        var textMetrics = PIXI.TextMetrics.measureText(m_text, m_style);
+	        var textMetrics = PIXI.TextMetrics.measureText(m_text, m_textStyle);
 	        return textMetrics.height;
 	    }
 
 	    this.getWidth = function()
 	    {
-	        var textMetrics = PIXI.TextMetrics.measureText(m_text, m_style);
+	        var textMetrics = PIXI.TextMetrics.measureText(m_text, m_textStyle);
 	        return textMetrics.width;
 	    }
 

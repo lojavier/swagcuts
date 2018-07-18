@@ -73,12 +73,12 @@ class NavBarComponent
     	{
     		m_mainLogoContainer = new PIXI.Container();
     		m_mainLogoContainer.position.set(Aspect.screenWidth*Aspect.navBarEdgeRatio, Aspect.navBarHeight/2);
-    		m_mainLogoContainer.pivot.set(0, Aspect.swagCutsMainLogoSize/2);
+    		m_mainLogoContainer.pivot.set(0, Aspect.mainLogoSize/2);
     		m_mainLogoContainer.interactive = true;
 
     		m_mainLogoSprite = new PIXI.Sprite.fromImage(Aspect.swagCutsMainLogoImage)
-    		m_mainLogoSprite.width = Aspect.swagCutsMainLogoSize;
-    		m_mainLogoSprite.height = Aspect.swagCutsMainLogoSize;
+    		m_mainLogoSprite.width = Aspect.mainLogoSize;
+    		m_mainLogoSprite.height = Aspect.mainLogoSize;
     		if(!m_mainLogoSprite.texture.baseTexture.hasLoaded)
 	        {
 	            m_mainLogoSprite.texture.baseTexture.on('loaded', function()
@@ -116,6 +116,27 @@ class NavBarComponent
             return m_mainLogoContainer;
     	};
 
+    	this.formatPhoneNumber = function(phonenumber, format)
+    	{
+    		var formattedPhoneNumber = null;
+    		switch(format)
+    		{
+    			case 0:
+    				formattedPhoneNumber = phonenumber.substring(0,3) + "-" + phonenumber.substring(3,6) + "-" + phonenumber.substring(6,10);
+    				break;
+
+				case 1:
+					formattedPhoneNumber = "(" + phonenumber.substring(0,3) + ") " + phonenumber.substring(3,6) + "-" + phonenumber.substring(6,10);
+					break;
+
+    			default:
+    				formattedPhoneNumber = phonenumber;
+    				break;
+    		}
+
+    		return formattedPhoneNumber;
+    	};
+
     	this.addContactNumber = function()
     	{
 	    	var posX = Aspect.MOBILE ? 0 : Aspect.screenWidth * (1-Aspect.navBarEdgeRatio);
@@ -132,14 +153,15 @@ class NavBarComponent
             m_contactRect.tint = Aspect.contactNumberBackgroundColor;
             m_contactNumberContainer.addChild(m_contactRect);
 
+            
             m_contactTextComponent = new TextComponent(
         		app,
                 m_contactRect.width/2,
                 m_contactRect.height/2,
                 m_contactRect.width,
                 m_contactRect.height,
-                Aspect.groomerPhoneNumber,
-                'Arial',
+                this.formatPhoneNumber(Aspect.groomerPhoneNumber, 0),
+                'Georgia, serif',
                 Aspect.contactNumberTextSize,
                 Aspect.contactNumberTextColor,
                 Aspect.contactNumberTextColor,
@@ -147,9 +169,7 @@ class NavBarComponent
                 Aspect.contactNumberTextColor,
                 'center'
             );
-            m_contactText = m_contactTextComponent.getText();
-            m_contactText.anchor.set(0.5, 0.5);
-            m_contactNumberContainer.addChild(m_contactText);
+            m_contactNumberContainer.addChild(m_contactTextComponent.getText());
 
     		return m_contactNumberContainer;
     	};

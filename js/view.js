@@ -15,15 +15,15 @@ var reloadViewAspect = function()
 		whiteBackgroundTexture : PIXI.Texture.WHITE,
 
 		// NavBarComponent
+		mainLogoSize : MOBILE?180:85,
 		navBarBackgroundColor : 0xFFFFFF,
 		navBarHeight : MOBILE?200:100,
 		navBarShadowColor : 0x000000,
 		navBarShadowHeight : MOBILE?8:6,
-		swagCutsMainLogoSize : MOBILE?180:85,
 		contactNumberWidth : MOBILE?window.innerWidth:160,
 		contactNumberHeight : MOBILE?120:60,
 		contactNumberBackgroundColor : 0x000000,
-		contactNumberTextSize : MOBILE?60:24,
+		contactNumberTextSize : MOBILE?60:22,
 		contactNumberTextColor : 0xFFFFFF,
 		navBarEdgeRatio : MOBILE?0.05:0.1,
 		navBarMenuTextSize : MOBILE?24:20,
