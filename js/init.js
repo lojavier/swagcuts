@@ -1,29 +1,32 @@
 // https://www.shutterstock.com/image-vector/scissors-icon-337423679?src=Ar1lLQuiXesuyWhO9iQYjA-1-2
 // Alice Font
-var m_app;
+var app;
 var m_rootContainer;
 var m_navBarComponent;
 
 var init = function()
 {
-	m_app = new PIXI.Application(
+	app = new PIXI.Application(
 		Aspect.screenWidth,
 		Aspect.screenHeight,
 		{
 			backgroundColor : 0x1099bb
 		});
-	document.body.appendChild(m_app.view);
+	document.body.appendChild(app.view);
 	var defaultIcon = "url('./images/scissors-closed-pointer.png'),auto";
 	var hoverIcon = "url('./images/scissors-opened-pointer.png'),auto";
-	m_app.renderer.plugins.interaction.cursorStyles.default = defaultIcon;
-	m_app.renderer.plugins.interaction.cursorStyles.hover = hoverIcon;
-	m_app.screen.cursor = "default";
+	app.renderer.plugins.interaction.cursorStyles.default = defaultIcon;
+	app.renderer.plugins.interaction.cursorStyles.hover = hoverIcon;
+	app.screen.cursor = "default";
+	app.stage.on('pointermove', function()
+    {
+    	app.screen.cursor = "default";
+    });
 
 	m_rootContainer = new PIXI.Container();
-	m_rootContainer.cursor = "default";
-	m_app.stage.addChild(m_rootContainer);
+	app.stage.addChild(m_rootContainer);
 
-	m_navBarComponent = new NavBarComponent(m_app);
+	m_navBarComponent = new NavBarComponent(app);
 	m_rootContainer.addChild(m_navBarComponent.getRootContainer());
 
 	addTicker();
@@ -31,7 +34,7 @@ var init = function()
 
 var addTicker = function()
 {
-    m_app.ticker.add(function()
+    app.ticker.add(function()
 	{
 		if(Aspect.screenWidth != window.innerWidth || Aspect.screenHeight != window.innerHeight)
 		{
@@ -43,7 +46,7 @@ var addTicker = function()
 var refreshSizing = function()
 {
 	reloadViewAspect();
-	m_app.renderer.resize(Aspect.screenWidth, Aspect.screenHeight);
+	app.renderer.resize(Aspect.screenWidth, Aspect.screenHeight);
 	m_navBarComponent.refresh();
 };
 

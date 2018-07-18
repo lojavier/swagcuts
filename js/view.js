@@ -23,7 +23,14 @@ var reloadViewAspect = function()
 		contactNumberWidth : MOBILE?window.innerWidth:160,
 		contactNumberHeight : MOBILE?120:60,
 		contactNumberBackgroundColor : 0x000000,
+		contactNumberTextSize : MOBILE?60:24,
+		contactNumberTextColor : 0xFFFFFF,
 		navBarEdgeRatio : MOBILE?0.05:0.1,
+		navBarMenuTextSize : MOBILE?24:20,
+		navBarMenuTextSpacingX : MOBILE?0:20,
+		navBarMenuTextSpacingY : MOBILE?20:0,
+		navBarMenuTextNonFocusColor : 0x000000,
+		navBarMenuTextFocusColor : 0xFF7648,
 
 		// contact info
 		// websiteURL : 'https://www.swagcuts.com/',

@@ -11,6 +11,8 @@ class NavBarComponent
     	var m_background;
     	var m_shadow;
     	var m_contactRect;
+    	var m_contactTextComponent;
+    	var m_contactText;
     	
     	// this.addNavBarMask = function()
      //    {
@@ -48,6 +50,7 @@ class NavBarComponent
             m_navBarContainer.addChild(m_background);
     		m_navBarContainer.addChild(this.addMainLogo());
     		m_navBarContainer.addChild(this.addContactNumber());
+
     		return m_navBarContainer;
     	};
 
@@ -61,8 +64,8 @@ class NavBarComponent
             m_shadow.height = Aspect.navBarShadowHeight;
             m_shadow.tint = Aspect.navBarShadowColor;
             m_shadow.alpha = 0.2;
-
             m_bottomShadowContainer.addChild(m_shadow);
+
     		return m_bottomShadowContainer;
     	};
 
@@ -72,7 +75,6 @@ class NavBarComponent
     		m_mainLogoContainer.position.set(Aspect.screenWidth*Aspect.navBarEdgeRatio, Aspect.navBarHeight/2);
     		m_mainLogoContainer.pivot.set(0, Aspect.swagCutsMainLogoSize/2);
     		m_mainLogoContainer.interactive = true;
-    		m_mainLogoContainer.cursor = "hover";
 
     		m_mainLogoSprite = new PIXI.Sprite.fromImage(Aspect.swagCutsMainLogoImage)
     		m_mainLogoSprite.width = Aspect.swagCutsMainLogoSize;
@@ -93,10 +95,6 @@ class NavBarComponent
 		        .on('pointerover', function()
 		        {
 		        	m_mainLogoContainer.cursor = "hover";
-		        })
-		        .on('pointerout', function()
-		        {
-		        	m_mainLogoContainer.cursor = "default";
 		        })
 		        .on('pointerdown', function()
 		        {
@@ -132,8 +130,27 @@ class NavBarComponent
             m_contactRect.width = Aspect.contactNumberWidth;
             m_contactRect.height = Aspect.contactNumberHeight;
             m_contactRect.tint = Aspect.contactNumberBackgroundColor;
-
             m_contactNumberContainer.addChild(m_contactRect);
+
+            m_contactTextComponent = new TextComponent(
+        		app,
+                m_contactRect.width/2,
+                m_contactRect.height/2,
+                m_contactRect.width,
+                m_contactRect.height,
+                Aspect.groomerPhoneNumber,
+                'Arial',
+                Aspect.contactNumberTextSize,
+                Aspect.contactNumberTextColor,
+                Aspect.contactNumberTextColor,
+                Aspect.contactNumberTextColor,
+                Aspect.contactNumberTextColor,
+                'center'
+            );
+            m_contactText = m_contactTextComponent.getText();
+            m_contactText.anchor.set(0.5, 0.5);
+            m_contactNumberContainer.addChild(m_contactText);
+
     		return m_contactNumberContainer;
     	};
 

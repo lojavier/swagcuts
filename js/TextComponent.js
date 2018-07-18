@@ -1,7 +1,9 @@
 class TextComponent
 {
-    constructor(app, width, height, text, fontfamily, fontsize, nonfocuscolor, focuscolor, backgroundfocuscolor, backgroundnonfocuscolor, alignment = 'left')
+    constructor(app, posx, posy, width, height, text, fontfamily, fontsize, nonfocuscolor, focuscolor, backgroundnonfocuscolor, backgroundfocuscolor, alignment = 'left')
     {
+	    var m_posX = posx;
+	    var m_posY = posy;
     	var m_width = width;
     	var m_height = height;
     	var m_text = text;
@@ -9,50 +11,80 @@ class TextComponent
     	var m_fontSize = fontsize;
     	var m_nonFocusColor = nonfocuscolor;
     	var m_focusColor = focuscolor;
-    	var m_backgroundFocusColor = backgroundfocuscolor;
     	var m_backgroundNonFocusColor = backgroundnonfocuscolor;
+    	var m_backgroundFocusColor = backgroundfocuscolor;
     	var m_align = alignment;
-    	var m_rootContainer;
+    	var m_style;
     	var m_textStyle;
+    	var m_colorLerpTicker = 0;
+	    var m_pixiText;
+	    var m_textSprite;
+	    var m_scaleText = 1;
+	    var m_fadeText = false;
 
-	    this.getTextComponent = function()
+    	// this.getText = function(text, width)
+	    // {
+     //        width -= 10;
+     //        var textMetrics = PIXI.TextMetrics.measureText(text, m_style);
+     //        if (textMetrics.width > width * m_scaleText) {
+     //            var len = text.length * width * m_scaleText / textMetrics.width;
+     //            if (len > 2)
+     //            {
+     //                m_style.fill = [m_nonFocusColor , backgroundNonfocuscolor];
+     //                m_style.fillGradientStops = [0.9, 1.0];
+     //                m_style.fillGradientType = 2;
+     //                m_fadeText = true;
+     //                return text.slice(0, len-2);
+     //            }
+     //        }
+     //        else
+     //            return text;
+	    // };
+
+	    this.getText = function()
 	    {
-	    	return m_textStyle;
+	    	// return m_textStyle;
+	    	return m_pixiText;
 	    };
 
 	    this.initTextComponent = function()
 	    {
-	        m_textStyle = new PIXI.TextStyle({
-                fontFamily: fontfamily,
+	        m_textStyle = new PIXI.TextStyle(
+	        {
+                fontFamily: m_fontFamily,
                 fontSize: m_fontSize * m_scaleText,
-                fill: m_noFocusColor,
-                align: m_align
+                fill: m_nonFocusColor,
+                align: m_align,
             });
-	        var text = this.getText(m_text, m_width);
-	        m_pixiText =  new PIXI.Text(text, m_style);
+	        // var text = this.getText(m_text, m_width);
+	        m_pixiText = new PIXI.Text(m_text, m_textStyle);
 
-	        if(m_align == 'right')
-	        {
-	          m_xPos = m_width - x - this.width();
-	        }
-	        else if(m_align == 'center')
-	        {
-	          m_xPos = (m_width - this.width())/2;
-	        }
+	        var posX = m_posX;
+	   //      if(m_align == 'right')
+	   //      {
+				// posX = m_width - m_posX - this.getWidth();
+	   //      }
+	   //      else if(m_align == 'center')
+	   //      {
+				// posX = (m_width - this.getWidth())/2;
+	   //      }
 
-	        m_pixiText.x = m_xPos;
-	        m_pixiText.y = m_yPos;
-
-	        /*m_textSprite = new PIXI.Sprite();
-	        m_textSprite.addChild(m_pixiText.texture);
-	        m_pixiText.anchor.x = m_pixiText.anchor.y = 0.5;
-
-	        m_textSprite.position.x = m_xPos + 10;
-	        m_textSprite.position.y = m_yPos;
-	        m_textSprite.scale.set(1/m_scaleText);// = 10;
-	        m_textSprite.height = 10;*/
+	        m_pixiText.x = posX;
+	        m_pixiText.y = m_posY;
 	    };
-	    
+
+	    this.getHeight = function()
+	    {
+	        var textMetrics = PIXI.TextMetrics.measureText(m_text, m_style);
+	        return textMetrics.height;
+	    }
+
+	    this.getWidth = function()
+	    {
+	        var textMetrics = PIXI.TextMetrics.measureText(m_text, m_style);
+	        return textMetrics.width;
+	    }
+
 	    /*
 	    this.setFocus = function(focus)
 	    {
