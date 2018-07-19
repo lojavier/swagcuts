@@ -6,6 +6,7 @@ class NavBarComponent
     	var m_navBarContainer;
     	var m_bottomShadowContainer;
     	var m_mainLogoContainer;
+    	var m_menuContainer;
     	var m_contactNumberContainer;
     	var m_mainLogoSprite;
     	var m_background;
@@ -13,6 +14,10 @@ class NavBarComponent
     	var m_contactRect;
     	var m_contactTextComponent;
     	var m_contactText;
+    	var m_menuOptions = ['Home','About Me','My Services','Contact'];
+    	var m_menuTextComponents = [];
+    	var m_menuTextContainers = [];
+    	var m_selectedMenuOptionIndex = 0;
     	
     	// this.addNavBarMask = function()
      //    {
@@ -50,6 +55,7 @@ class NavBarComponent
             m_navBarContainer.addChild(m_background);
     		m_navBarContainer.addChild(this.addMainLogo());
     		m_navBarContainer.addChild(this.addContactNumber());
+    		m_navBarContainer.addChild(this.addMenuOptions());
 
     		return m_navBarContainer;
     	};
@@ -76,7 +82,7 @@ class NavBarComponent
     		m_mainLogoContainer.pivot.set(0, Aspect.mainLogoSize/2);
     		m_mainLogoContainer.interactive = true;
 
-    		m_mainLogoSprite = new PIXI.Sprite.fromImage(Aspect.swagCutsMainLogoImage)
+    		m_mainLogoSprite = new PIXI.Sprite.fromImage(Aspect.swagCutsMainLogoImage);
     		m_mainLogoSprite.width = Aspect.mainLogoSize;
     		m_mainLogoSprite.height = Aspect.mainLogoSize;
     		if(!m_mainLogoSprite.texture.baseTexture.hasLoaded)
@@ -94,15 +100,15 @@ class NavBarComponent
 	        m_mainLogoContainer
 		        .on('pointerover', function()
 		        {
-		        	m_mainLogoContainer.cursor = "hover";
+		        	this.cursor = "hover";
 		        })
 		        .on('pointerdown', function()
 		        {
-		        	m_mainLogoContainer.cursor = "default";
+		        	this.cursor = "default";
 		        })
 		        .on('pointerup', function()
 		        {
-		        	m_mainLogoContainer.cursor = "hover";
+		        	this.cursor = "hover";
 		        })
 		        .on('click', function()
 		        {
@@ -153,7 +159,6 @@ class NavBarComponent
             m_contactRect.tint = Aspect.contactNumberBackgroundColor;
             m_contactNumberContainer.addChild(m_contactRect);
 
-            
             m_contactTextComponent = new TextComponent(
         		app,
                 m_contactRect.width/2,
@@ -167,11 +172,74 @@ class NavBarComponent
                 Aspect.contactNumberTextColor,
                 Aspect.contactNumberTextColor,
                 Aspect.contactNumberTextColor,
-                'center'
+                'center',
+                false
             );
             m_contactNumberContainer.addChild(m_contactTextComponent.getText());
 
     		return m_contactNumberContainer;
+    	};
+
+    	this.addMenuOptions = function()
+    	{
+    		var logoRightPosX = m_mainLogoContainer.position.x + m_mainLogoSprite.width;
+    		var contactLeftPosX = m_contactNumberContainer.position.x - m_contactNumberContainer.width;
+    		var menuPosX = logoRightPosX + ((contactLeftPosX-logoRightPosX)/2);
+
+    		m_menuContainer = new PIXI.Container();
+    		m_menuContainer.position.set(menuPosX, Aspect.navBarHeight/2);
+
+    		var textPosX = 0;
+    		for(var i = 0; i < m_menuOptions.length; ++i)
+    		{
+    			m_menuTextComponents[i] = new TextComponent(
+	        		app,
+	                textPosX,
+	                0,
+	                0,
+	                0,
+	                m_menuOptions[i],
+	                'Comic Sans MS',
+	                Aspect.navBarMenuTextSize,
+	                Aspect.navBarMenuTextNonFocusColor,
+	                Aspect.navBarMenuTextNonFocusColor,
+	                Aspect.navBarMenuTextNonFocusColor,
+	                Aspect.navBarMenuTextNonFocusColor,
+	                'left',
+	                true
+	            );
+	            var text = m_menuTextComponents[i].getText();
+	            m_menuContainer.addChild(m_menuTextComponents[i].getText());
+	          //   m_menuContainer.getChildAt(i)
+	          //   	.on('pointerover', function()
+			        // {
+			        // 	// m_menuTextComponents[i].setFocus(true);
+			        // 	this.cursor = "hover";
+			        // 	console.log("hover " + m_menuTextComponents[i].getWidth());
+			        // })
+			        // .on('pointerdown', function()
+			        // {
+			        // 	this.cursor = "default";
+			        // })
+			        // .on('pointerup', function()
+			        // {
+			        // 	this.cursor = "hover";
+			        // })
+			        // .on('click', function()
+			        // {
+			        // 	// window.location.href = Aspect.websiteURL;
+			        // })
+			        // .on('tap', function()
+			        // {
+			        // 	// window.location.href = Aspect.websiteURL;
+			        // });
+	            textPosX += m_menuTextComponents[i].getWidth() + Aspect.navBarMenuTextSpacingX;
+    		}
+
+    		m_menuContainer.pivot.set(m_menuContainer.width/2, 0);
+    		// m_menuTextComponents[m_selectedMenuOptionIndex].setFocus(true);
+
+    		return m_menuContainer;
     	};
 
     	this.initNavBar = function()

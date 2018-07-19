@@ -1,6 +1,7 @@
+// https://pixijs.io/pixi-text-style/#
 class TextComponent
 {
-    constructor(app, posx, posy, width, height, text, fontfamily, fontsize, nonfocuscolor, focuscolor, backgroundnonfocuscolor, backgroundfocuscolor, alignment = 'left')
+    constructor(app, posx, posy, width, height, text, fontfamily, fontsize, nonfocuscolor, focuscolor, backgroundnonfocuscolor, backgroundfocuscolor, alignment = 'left', interactive = false)
     {
 	    var m_posX = posx;
 	    var m_posY = posy;
@@ -14,9 +15,13 @@ class TextComponent
     	var m_backgroundNonFocusColor = backgroundnonfocuscolor;
     	var m_backgroundFocusColor = backgroundfocuscolor;
     	var m_align = alignment;
+    	var m_interactive = interactive;
     	var m_scaleText = 1;
     	var m_textStyle;
     	var m_pixiText;
+    	var m_focusDuration = 200;
+    	var m_currentColor;
+        var m_targetColor;
 
     	var m_colorLerpTicker = 0;
 	    var m_fadeText = false;
@@ -40,15 +45,44 @@ class TextComponent
 	        m_pixiText = new PIXI.Text(m_text, m_textStyle);
 	        m_pixiText.x = m_posX;
 	        m_pixiText.y = m_posY;
+	        m_pixiText.interactive = m_interactive;
 
-	        if(m_align == 'right')
+	        if(m_align == 'left')
 	        {
-				m_pixiText.anchor.set(1, 0.5);
+				m_pixiText.anchor.set(0, 0.5);
 	        }
 	        else if(m_align == 'center')
 	        {
 				m_pixiText.anchor.set(0.5, 0.5);
 	        }
+	        else if(m_align == 'right')
+	        {
+	        	m_pixiText.anchor.set(1, 0.5);
+	        }
+
+	        if(m_interactive)
+	        {
+		        m_pixiText
+		        	.on('pointerover', function()
+			        {
+			        	// this.setFocus(true);
+			        	this.cursor = "hover";
+			        	console.log("pointerover " + m_text);
+			        })
+			        .on('pointerout', function()
+			        {
+			        	// this.setFocus(false);
+			        	console.log("pointerout " + m_text);
+			        })
+			        .on('pointerdown', function()
+			        {
+			        	this.cursor = "default";
+			        })
+			        .on('pointerup', function()
+			        {
+			        	this.cursor = "hover";
+			        });
+		    }
 	    };
 
 	    this.getHeight = function()
@@ -63,6 +97,39 @@ class TextComponent
 	        return textMetrics.width;
 	    }
 
+	    this.setFocus = function(focus)
+	    {
+	    	var focusTween = PIXI.tweenManager.createTween(m_textStyle);
+	    	//focusTween.stop().clear();
+	    	focusTween.loop = false;
+	    	focusTween.expire = true;
+	        focusTween.time = m_focusDuration;
+	        focusTween.easing = PIXI.tween.Easing.outSine();
+
+	        m_nonFocusColor = m_textStyle.fill;
+	        m_targetColor = focus ? m_focusColor : m_nonFocusColor;
+
+	        var ar, ag, ab, br, bg, bb;
+	        focusTween.on('start', function()
+            {
+                ar = m_currentColor >> 16, ag = m_currentColor >> 8 & 0xff, ab = m_currentColor & 0xff,
+                br = m_targetColor >> 16, bg = m_targetColor >> 8 & 0xff, bb = m_targetColor & 0xff;
+            });
+	        focusTween.on('update', function(delta)
+            {
+                var tick = (delta/m_focusDuration).toPrecision(2);
+                if(tick != m_colorLerpTicker)
+                {
+                    m_colorLerpTicker = tick;
+                    var rr = Math.round((1 - m_colorLerpTicker) * ar + m_colorLerpTicker * br);
+                    var rg = Math.round((1 - m_colorLerpTicker) * ag + m_colorLerpTicker * bg);
+                    var rb = Math.round((1 - m_colorLerpTicker) * ab + m_colorLerpTicker * bb);
+                    m_textStyle.fill = ((rr << 16) + (rg << 8) + rb);
+                }
+            });
+
+	        focusTween.start();
+	    };
 	    /*
 	    this.setFocus = function(focus)
 	    {

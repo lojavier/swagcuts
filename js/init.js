@@ -18,10 +18,15 @@ var init = function()
 	app.renderer.plugins.interaction.cursorStyles.default = defaultIcon;
 	app.renderer.plugins.interaction.cursorStyles.hover = hoverIcon;
 	app.screen.cursor = "default";
-	app.stage.on('pointermove', function()
-    {
-    	app.screen.cursor = "default";
-    });
+	app.stage
+		.on('pointerover', function()
+	    {
+	    	app.screen.cursor = "default";
+	    })
+		.on('pointermove', function()
+	    {
+	    	app.screen.cursor = "default";
+	    });
 
 	m_rootContainer = new PIXI.Container();
 	app.stage.addChild(m_rootContainer);
