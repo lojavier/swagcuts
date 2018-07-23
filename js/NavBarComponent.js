@@ -62,17 +62,44 @@ class NavBarComponent
 
     	this.drawBottomShadow = function()
     	{
-    		m_bottomShadowContainer = new PIXI.Container();
+            m_bottomShadowContainer = new PIXI.Container();
     		m_bottomShadowContainer.position.set(0, Aspect.navBarHeight);
 
-    		m_shadow = new PIXI.Sprite(Aspect.whiteBackgroundTexture);
-            m_shadow.width = Aspect.screenWidth;
-            m_shadow.height = Aspect.navBarShadowHeight;
-            m_shadow.tint = Aspect.navBarShadowColor;
-            m_shadow.alpha = 0.2;
-            m_bottomShadowContainer.addChild(m_shadow);
+            var shadowWidth = Aspect.screenWidth;
+            var shadowHeight = Aspect.navBarShadowHeight;
+            var alphaDiff = 1 / shadowHeight;
+            var alphaValue = 1;
+            var shadowGraphic = new PIXI.Graphics();
+            shadowGraphic.tint = 0x000000;
+            shadowGraphic.alpha = 0.5;
 
-    		return m_bottomShadowContainer;
+            for (var row = 0; row < shadowHeight; ++row)
+            {
+                shadowGraphic.lineStyle(1, 0xFFFFFF, alphaValue);
+                shadowGraphic.moveTo(0, row);
+                shadowGraphic.lineTo(shadowWidth, row);
+
+                alphaValue -= alphaDiff;
+            }
+            shadowGraphic.endFill();
+            m_bottomShadowContainer.addChild(shadowGraphic);
+
+            return m_bottomShadowContainer;
+
+            // m_bottomShadowContainer = new PIXI.Container();
+    		// m_bottomShadowContainer.position.set(0, Aspect.navBarHeight);
+
+    		// m_bottomShadowContainer = new PIXI.Container();
+    		// m_bottomShadowContainer.position.set(0, Aspect.navBarHeight);
+
+    		// m_shadow = new PIXI.Sprite(Aspect.whiteBackgroundTexture);
+      //       m_shadow.width = Aspect.screenWidth;
+      //       m_shadow.height = Aspect.navBarShadowHeight;
+      //       m_shadow.tint = Aspect.navBarShadowColor;
+      //       m_shadow.alpha = 0.2;
+      //       m_bottomShadowContainer.addChild(m_shadow);
+
+    		// return m_bottomShadowContainer;
     	};
 
     	this.addMainLogo = function()
@@ -170,9 +197,7 @@ class NavBarComponent
                 Aspect.contactNumberTextSize,
                 Aspect.contactNumberTextColor,
                 Aspect.contactNumberTextColor,
-                Aspect.contactNumberTextColor,
-                Aspect.contactNumberTextColor,
-                'center',
+                'center-middle',
                 false
             );
             m_contactNumberContainer.addChild(m_contactTextComponent.getText());
@@ -192,6 +217,7 @@ class NavBarComponent
     		var textPosX = 0;
     		for(var i = 0; i < m_menuOptions.length; ++i)
     		{
+    			var selected = (i == 0);
     			m_menuTextComponents[i] = new TextComponent(
 	        		app,
 	                textPosX,
@@ -202,42 +228,45 @@ class NavBarComponent
 	                'Comic Sans MS',
 	                Aspect.navBarMenuTextSize,
 	                Aspect.navBarMenuTextNonFocusColor,
-	                Aspect.navBarMenuTextNonFocusColor,
-	                Aspect.navBarMenuTextNonFocusColor,
-	                Aspect.navBarMenuTextNonFocusColor,
-	                'left',
-	                true
+	                Aspect.navBarMenuTextFocusColor,
+	                'left-middle',
+	                true,
+	                selected
 	            );
 	            var text = m_menuTextComponents[i].getText();
-	            m_menuContainer.addChild(m_menuTextComponents[i].getText());
-	          //   m_menuContainer.getChildAt(i)
-	          //   	.on('pointerover', function()
-			        // {
-			        // 	// m_menuTextComponents[i].setFocus(true);
-			        // 	this.cursor = "hover";
-			        // 	console.log("hover " + m_menuTextComponents[i].getWidth());
-			        // })
-			        // .on('pointerdown', function()
-			        // {
-			        // 	this.cursor = "default";
-			        // })
-			        // .on('pointerup', function()
-			        // {
-			        // 	this.cursor = "hover";
-			        // })
-			        // .on('click', function()
-			        // {
-			        // 	// window.location.href = Aspect.websiteURL;
-			        // })
-			        // .on('tap', function()
-			        // {
-			        // 	// window.location.href = Aspect.websiteURL;
-			        // });
+	            m_menuContainer.addChild(text);
+	            text
+	            	.on('pointerover', function()
+			        {
+			        	this.cursor = "hover";
+			        })
+			        .on('pointerover', function()
+			        {
+			        	this.setFocus(true);
+			        }.bind(m_menuTextComponents[i]))
+			        .on('pointerout', function()
+			        {
+			        	this.setFocus(false);
+			        }.bind(m_menuTextComponents[i]))
+			        .on('pointerdown', function()
+			        {
+			        	this.cursor = "default";
+			        })
+			        .on('pointerup', function()
+			        {
+			        	this.cursor = "hover";
+			        })
+			        .on('pointertap', function()
+			        {
+			        	// window.location.href = Aspect.websiteURL;
+			        })
+			        .on('tap', function()
+			        {
+			        	// window.location.href = Aspect.websiteURL;
+			        });
 	            textPosX += m_menuTextComponents[i].getWidth() + Aspect.navBarMenuTextSpacingX;
     		}
-
     		m_menuContainer.pivot.set(m_menuContainer.width/2, 0);
-    		// m_menuTextComponents[m_selectedMenuOptionIndex].setFocus(true);
 
     		return m_menuContainer;
     	};
@@ -258,61 +287,6 @@ class NavBarComponent
    			m_rootContainer.removeChildren();
     		m_rootContainer.addChild(this.drawNavBar());
     	};
-
-    	// this.setFocus = function(focus, callback)
-     //    {
-     //        m_focused = focus;
-     //        m_cellTargetColor = focus ? m_cellFocusedColor : m_cellNonfocusedColor;
-     //        m_cellCurrentColor = m_background.tint;
-
-     //        if(!m_backgroundColorTween)
-     //        {
-     //            var ar, ag, ab, br, bg, bb;
-     //            m_backgroundColorTween = PIXI.tweenManager.createTween(m_background);
-     //            m_backgroundColorTween.on('start', function()
-     //                {
-     //                    ar = m_cellCurrentColor >> 16, ag = m_cellCurrentColor >> 8 & 0xff, ab = m_cellCurrentColor & 0xff,
-     //                    br = m_cellTargetColor >> 16, bg = m_cellTargetColor >> 8 & 0xff, bb = m_cellTargetColor & 0xff;
-     //                });
-     //            m_backgroundColorTween.on('update', function(delta)
-     //                {
-     //                    var tick = (delta/m_colorLerpDuration).toPrecision(2);
-     //                    if(tick != m_colorLerpTicker)
-     //                    {
-     //                        m_colorLerpTicker = tick;
-     //                        var rr = Math.round((1 - m_colorLerpTicker) * ar + m_colorLerpTicker * br);
-     //                        var rg = Math.round((1 - m_colorLerpTicker) * ag + m_colorLerpTicker * bg);
-     //                        var rb = Math.round((1 - m_colorLerpTicker) * ab + m_colorLerpTicker * bb);
-     //                            m_background.tint = ((rr << 16) + (rg << 8) + rb);
-     //                        }
-     //                        else if(tick == 1)
-     //                        {
-     //                            m_background.tint = m_cellTargetColor;
-     //                        }
-     //                });
-     //            m_backgroundColorTween.on('end', function()
-     //                {
-     //                    m_cellColor = m_background.tint;
-     //                    // if(m_focused) callback();
-     //                });
-     //        }
-
-     //        m_backgroundColorTween.stop().clear();
-     //        m_backgroundColorTween.time = m_colorLerpDuration;
-     //        m_backgroundColorTween.easing = focus ? PIXI.tween.Easing.inSine() : PIXI.tween.Easing.outSine();
-     //        m_backgroundColorTween.start();
-
-     //        if(m_titleTextComponent) m_titleTextComponent.setFocus(focus);
-     //        if(m_subtitleTextComponent) m_subtitleTextComponent.setFocus(focus);
-     //        if(m_ChannelNumTextComponent) m_ChannelNumTextComponent.setFocus(focus);
-     //        if((m_programIcon && m_programIcon.visible) || (m_fav1Icon && m_fav1Icon.visible) || (m_fav2Icon && m_fav2Icon.visible))
-     //        {
-     //          this.setFocusToIcons(focus);
-     //        }
-
-     //        if (m_info && m_isRealApp)
-     //            PIXI_LOG && console.log(`setFocus(${focus}): ${this.getProgramName()} start-${m_info.startTime} duration:${m_info.duration} tint:${m_cellCurrentColor}-${m_cellTargetColor}`);
-     //    }
 
     	this.initNavBar();
     }

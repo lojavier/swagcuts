@@ -1,12 +1,17 @@
 var Aspect = null;
 var mobileMinimumPixels = 420;
 // var MOBILE = (window.innerWidth < mobileMinimumPixels);
-var MOBILE = (typeof window.orientation !== 'undefined');
+var MOBILE = false;
+
+var isMobileDevice = function()
+{
+    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+};
 
 var reloadViewAspect = function()
 {
 	// MOBILE = (window.innerWidth < mobileMinimumPixels);
-	MOBILE = (typeof window.orientation !== 'undefined');
+	MOBILE = isMobileDevice();
 	Aspect = {
 		// screen dimensions / global
 		MOBILE : MOBILE,
@@ -19,7 +24,7 @@ var reloadViewAspect = function()
 		navBarBackgroundColor : 0xFFFFFF,
 		navBarHeight : MOBILE?200:100,
 		navBarShadowColor : 0x000000,
-		navBarShadowHeight : MOBILE?8:6,
+		navBarShadowHeight : MOBILE?24:12,
 		contactNumberWidth : MOBILE?window.innerWidth:160,
 		contactNumberHeight : MOBILE?120:60,
 		contactNumberBackgroundColor : 0x000000,
@@ -33,6 +38,10 @@ var reloadViewAspect = function()
 		navBarMenuTextSpacingY : MOBILE?40:0,
 		navBarMenuTextNonFocusColor : 0x000000,
 		navBarMenuTextFocusColor : 0xFF7648,
+
+		// HomeComponent
+		// homeBackgroundColor : 0x00edda,
+		homeBackgroundColor : 0xFBE8A4,
 
 		// contact info
 		// websiteURL : 'https://www.swagcuts.com/',

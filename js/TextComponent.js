@@ -1,7 +1,7 @@
 // https://pixijs.io/pixi-text-style/#
 class TextComponent
 {
-    constructor(app, posx, posy, width, height, text, fontfamily, fontsize, nonfocuscolor, focuscolor, backgroundnonfocuscolor, backgroundfocuscolor, alignment = 'left', interactive = false)
+    constructor(app, posx, posy, width, height, text, fontfamily, fontsize, nonfocuscolor, focuscolor, alignment = 'left-top', interactive = false, selected = false)
     {
 	    var m_posX = posx;
 	    var m_posY = posy;
@@ -12,20 +12,18 @@ class TextComponent
     	var m_fontSize = fontsize;
     	var m_nonFocusColor = nonfocuscolor;
     	var m_focusColor = focuscolor;
-    	var m_backgroundNonFocusColor = backgroundnonfocuscolor;
-    	var m_backgroundFocusColor = backgroundfocuscolor;
-    	var m_align = alignment;
+    	var m_align = alignment.split("-");
     	var m_interactive = interactive;
+    	var m_selected = selected;
     	var m_scaleText = 1;
     	var m_textStyle;
     	var m_pixiText;
     	var m_focusDuration = 200;
     	var m_currentColor;
         var m_targetColor;
-
     	var m_colorLerpTicker = 0;
-	    var m_fadeText = false;
-	    var m_style;
+	    // var m_fadeText = false;
+	    // var m_style;
 
 	    this.getText = function()
 	    {
@@ -34,6 +32,16 @@ class TextComponent
 
 	    this.initTextComponent = function()
 	    {
+	    	var anchorX = 0;
+	        var anchorY = 0;
+
+	        if(m_selected)
+	        {
+	        	var temp = m_nonFocusColor;
+	        	m_nonFocusColor = m_focusColor;
+    			m_focusColor = temp;
+	        }
+
 	        m_textStyle = new PIXI.TextStyle(
 	        {
                 fontFamily: m_fontFamily,
@@ -47,42 +55,25 @@ class TextComponent
 	        m_pixiText.y = m_posY;
 	        m_pixiText.interactive = m_interactive;
 
-	        if(m_align == 'left')
+	        if(m_align[0] == 'center')
 	        {
-				m_pixiText.anchor.set(0, 0.5);
+				anchorX = 0.5;
 	        }
-	        else if(m_align == 'center')
+	        else if(m_align[0] == 'right')
 	        {
-				m_pixiText.anchor.set(0.5, 0.5);
-	        }
-	        else if(m_align == 'right')
-	        {
-	        	m_pixiText.anchor.set(1, 0.5);
+	        	anchorX = 1;
 	        }
 
-	        if(m_interactive)
+	        if(m_align[1] == 'middle')
 	        {
-		        m_pixiText
-		        	.on('pointerover', function()
-			        {
-			        	// this.setFocus(true);
-			        	this.cursor = "hover";
-			        	console.log("pointerover " + m_text);
-			        })
-			        .on('pointerout', function()
-			        {
-			        	// this.setFocus(false);
-			        	console.log("pointerout " + m_text);
-			        })
-			        .on('pointerdown', function()
-			        {
-			        	this.cursor = "default";
-			        })
-			        .on('pointerup', function()
-			        {
-			        	this.cursor = "hover";
-			        });
-		    }
+				anchorY = 0.5;
+	        }
+	        else if(m_align[1] == 'bottom')
+	        {
+	        	anchorY = 1;
+	        }
+
+	        m_pixiText.anchor.set(anchorX, anchorY);
 	    };
 
 	    this.getHeight = function()
@@ -99,36 +90,39 @@ class TextComponent
 
 	    this.setFocus = function(focus)
 	    {
-	    	var focusTween = PIXI.tweenManager.createTween(m_textStyle);
-	    	//focusTween.stop().clear();
-	    	focusTween.loop = false;
-	    	focusTween.expire = true;
-	        focusTween.time = m_focusDuration;
-	        focusTween.easing = PIXI.tween.Easing.outSine();
+	    	if(!m_selected)
+	    	{
+		    	var focusTween = PIXI.tweenManager.createTween(m_textStyle);
+		    	//focusTween.stop().clear();
+		    	focusTween.loop = false;
+		    	focusTween.expire = true;
+		        focusTween.time = m_focusDuration;
+		        focusTween.easing = focus ? PIXI.tween.Easing.inSine() : PIXI.tween.Easing.outSine();
 
-	        m_nonFocusColor = m_textStyle.fill;
-	        m_targetColor = focus ? m_focusColor : m_nonFocusColor;
+		        m_currentColor = m_textStyle.fill;
+		        m_targetColor = focus ? m_focusColor : m_nonFocusColor;
 
-	        var ar, ag, ab, br, bg, bb;
-	        focusTween.on('start', function()
-            {
-                ar = m_currentColor >> 16, ag = m_currentColor >> 8 & 0xff, ab = m_currentColor & 0xff,
-                br = m_targetColor >> 16, bg = m_targetColor >> 8 & 0xff, bb = m_targetColor & 0xff;
-            });
-	        focusTween.on('update', function(delta)
-            {
-                var tick = (delta/m_focusDuration).toPrecision(2);
-                if(tick != m_colorLerpTicker)
-                {
-                    m_colorLerpTicker = tick;
-                    var rr = Math.round((1 - m_colorLerpTicker) * ar + m_colorLerpTicker * br);
-                    var rg = Math.round((1 - m_colorLerpTicker) * ag + m_colorLerpTicker * bg);
-                    var rb = Math.round((1 - m_colorLerpTicker) * ab + m_colorLerpTicker * bb);
-                    m_textStyle.fill = ((rr << 16) + (rg << 8) + rb);
-                }
-            });
+		        var ar, ag, ab, br, bg, bb;
+		        focusTween.on('start', function()
+	            {
+	                ar = m_currentColor >> 16, ag = m_currentColor >> 8 & 0xff, ab = m_currentColor & 0xff,
+	                br = m_targetColor >> 16, bg = m_targetColor >> 8 & 0xff, bb = m_targetColor & 0xff;
+	            });
+		        focusTween.on('update', function(delta)
+	            {
+	                var tick = (delta/m_focusDuration).toPrecision(2);
+	                if(tick != m_colorLerpTicker)
+	                {
+	                    m_colorLerpTicker = tick;
+	                    var rr = Math.round((1 - m_colorLerpTicker) * ar + m_colorLerpTicker * br);
+	                    var rg = Math.round((1 - m_colorLerpTicker) * ag + m_colorLerpTicker * bg);
+	                    var rb = Math.round((1 - m_colorLerpTicker) * ab + m_colorLerpTicker * bb);
+	                    m_textStyle.fill = ((rr << 16) + (rg << 8) + rb);
+	                }
+	            });
 
-	        focusTween.start();
+		        focusTween.start();
+	    	}
 	    };
 	    /*
 	    this.setFocus = function(focus)
