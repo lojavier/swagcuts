@@ -1,0 +1,135 @@
+// ==========================================================================
+// Navigation
+// ==========================================================================
+
+@use 'tokens' as *;
+
+.site-header {
+  position: sticky;
+  top: 0;
+  background: rgba($paper, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba($ink-muted, 0.12);
+  z-index: 20;
+
+  body.policy-banner-visible & {
+    top: 2.4rem;
+  }
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  gap: 1rem;
+  position: relative;
+
+  @media (max-width: $breakpoint-tablet) {
+    flex-wrap: wrap;
+  }
+}
+
+.brand {
+  font-family: $font-display;
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: 0.04em;
+}
+
+// Mobile Navigation Toggle (Hamburger)
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-sm;
+  transition: background $transition-fast;
+
+  &:hover {
+    background: rgba($ink, 0.06);
+  }
+
+  .bar {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: $ink;
+    border-radius: 2px;
+    transition: transform $transition-medium, opacity $transition-medium;
+  }
+
+  &[aria-expanded="true"] {
+    .bar:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .bar:nth-child(2) {
+      opacity: 0;
+    }
+    .bar:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    display: flex;
+  }
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+
+  a {
+    padding: 0.35rem 0.5rem;
+    border-radius: 999px;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: rgba($ink, 0.08);
+    }
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: rgba($paper, 0.98);
+    backdrop-filter: blur(8px);
+    padding: 1rem;
+    border-bottom: 1px solid rgba($ink-muted, 0.12);
+    box-shadow: 0 10px 30px rgba($ink, 0.1);
+    gap: 0;
+
+    &.is-open {
+      display: flex;
+    }
+
+    a {
+      padding: 0.75rem 1rem;
+      border-radius: 0;
+      border-bottom: 1px solid rgba($ink-muted, 0.08);
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background: rgba($ink, 0.04);
+      }
+    }
+  }
+}

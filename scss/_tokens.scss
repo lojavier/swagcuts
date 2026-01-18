@@ -1,0 +1,92 @@
+// ==========================================================================
+// Design Tokens - Swag Cuts
+// Inspired by pets-grooming.axiomthemes.com template
+// ==========================================================================
+
+// Primary Colors (Template-inspired)
+$paper: #f5f0e1;              // Warm cream background
+$paper-light: #ffffff;        // Pure white
+$paper-warm: #fff8f0;         // Warm white for gradients
+$ink: #332f20;                // Dark brown text
+$ink-muted: #a7a49c;          // Muted gray text
+
+// Accent Colors
+$accent: #50bfdd;             // Teal - Primary accent (template)
+$accent-dark: #3da8c5;        // Darker teal for hover
+$accent-warm: #d64c3b;        // Warm red-orange (secondary CTA)
+$accent-warm-dark: #b23a2c;   // Darker warm accent
+
+// Supporting Colors
+$leaf: #2f5d46;               // Forest green
+$sun: #f3b42c;                // Golden yellow
+$stone: #e2d6c7;              // Neutral stone
+$mint: #bfe3d0;               // Light mint green
+$coral: #ff6b6b;              // Coral for highlights
+
+// Shadows
+$shadow: 0 24px 50px rgba(51, 47, 32, 0.12);
+$shadow-sm: 0 4px 12px rgba(51, 47, 32, 0.08);
+$shadow-lg: 0 32px 64px rgba(51, 47, 32, 0.16);
+
+// Border Radius
+$radius-lg: 28px;
+$radius-md: 18px;
+$radius-sm: 12px;
+$radius-xs: 8px;
+$radius-full: 999px;
+
+// Typography - Updated to Quicksand/Lato (template fonts)
+$font-display: "Quicksand", "Fraunces", sans-serif;
+$font-body: "Lato", "Work Sans", "Helvetica Neue", Arial, sans-serif;
+
+// Font Weights
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Breakpoints
+$breakpoint-tablet: 900px;
+$breakpoint-mobile: 600px;
+$breakpoint-sm: 480px;
+
+// Spacing
+$section-padding: 5rem;
+$section-padding-sm: 3rem;
+$container-max: 1200px;
+$gap-lg: 2.5rem;
+$gap-md: 1.5rem;
+$gap-sm: 1rem;
+
+// Transitions
+$transition-fast: 0.2s ease;
+$transition-medium: 0.3s ease;
+$transition-slow: 0.6s ease;
+$transition-bounce: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+// CSS Custom Properties (for runtime theming)
+:root {
+  --paper: #{$paper};
+  --paper-light: #{$paper-light};
+  --paper-warm: #{$paper-warm};
+  --ink: #{$ink};
+  --ink-muted: #{$ink-muted};
+  --accent: #{$accent};
+  --accent-dark: #{$accent-dark};
+  --accent-warm: #{$accent-warm};
+  --accent-warm-dark: #{$accent-warm-dark};
+  --leaf: #{$leaf};
+  --sun: #{$sun};
+  --stone: #{$stone};
+  --mint: #{$mint};
+  --coral: #{$coral};
+  --shadow: #{$shadow};
+  --shadow-sm: #{$shadow-sm};
+  --shadow-lg: #{$shadow-lg};
+  --radius-lg: #{$radius-lg};
+  --radius-md: #{$radius-md};
+  --radius-sm: #{$radius-sm};
+  --radius-xs: #{$radius-xs};
+  --font-display: #{$font-display};
+  --font-body: #{$font-body};
+}

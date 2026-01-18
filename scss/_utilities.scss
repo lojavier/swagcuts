@@ -1,0 +1,154 @@
+// ==========================================================================
+// Utilities & Animations
+// ==========================================================================
+
+@use 'tokens' as *;
+
+// Base Reveal Animation
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  // Stagger delays for grid items
+  @for $i from 1 through 12 {
+    &:nth-child(#{$i}) {
+      transition-delay: #{($i - 1) * 0.1}s;
+    }
+  }
+}
+
+// Reveal from left
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Reveal from right
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Scale up reveal
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+
+  &.is-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Fade in only
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.8s ease-out;
+
+  &.is-visible {
+    opacity: 1;
+  }
+}
+
+// Float animation (for decorative elements)
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+// Pulse animation
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+// Shimmer loading effect
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba($stone, 0.3) 25%,
+    rgba($paper-light, 0.5) 50%,
+    rgba($stone, 0.3) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+// Utility classes
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: $ink-muted;
+}
+
+.text-accent {
+  color: $accent;
+}
+
+.mt-1 { margin-top: $gap-sm; }
+.mt-2 { margin-top: $gap-md; }
+.mt-3 { margin-top: $gap-lg; }
+.mb-1 { margin-bottom: $gap-sm; }
+.mb-2 { margin-bottom: $gap-md; }
+.mb-3 { margin-bottom: $gap-lg; }
+
+// Hide on mobile/desktop
+@media (max-width: $breakpoint-mobile) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: $breakpoint-mobile + 1) {
+  .hide-desktop {
+    display: none !important;
+  }
+}

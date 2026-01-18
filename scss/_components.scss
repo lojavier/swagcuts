@@ -1,0 +1,602 @@
+// ==========================================================================
+// Components
+// ==========================================================================
+
+// Buttons
+@use 'tokens' as *;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.6rem;
+  border-radius: $radius-full;
+  border: none;
+  font-weight: $font-weight-semibold;
+  font-family: $font-body;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform $transition-fast, box-shadow $transition-fast, background $transition-fast;
+
+  &.primary {
+    background: $accent;
+    color: $paper-light;
+    box-shadow: 0 8px 24px rgba($accent, 0.35);
+
+    &:hover {
+      background: $accent-dark;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba($accent, 0.4);
+    }
+  }
+
+  &.secondary {
+    background: $accent-warm;
+    color: $paper-light;
+    box-shadow: 0 8px 24px rgba($accent-warm, 0.3);
+
+    &:hover {
+      background: $accent-warm-dark;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba($accent-warm, 0.35);
+    }
+  }
+
+  &.outline {
+    background: transparent;
+    border: 2px solid $accent;
+    color: $accent;
+
+    &:hover {
+      background: rgba($accent, 0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba($accent, 0.15);
+    }
+  }
+
+  &.outline-dark {
+    background: transparent;
+    border: 2px solid $ink;
+    color: $ink;
+
+    &:hover {
+      background: rgba($ink, 0.05);
+      transform: translateY(-2px);
+    }
+  }
+
+  &.sm {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+  }
+
+  &.lg {
+    padding: 1rem 2rem;
+    font-size: 1.05rem;
+  }
+}
+
+// Cards
+.card {
+  background: $paper-light;
+  padding: 1.8rem;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+  position: relative;
+  overflow: hidden;
+  transition: transform $transition-medium, box-shadow $transition-medium;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: $radius-md;
+    border: 1px solid rgba($ink, 0.06);
+    pointer-events: none;
+  }
+
+  &.highlight {
+    border: 2px solid rgba($accent, 0.4);
+    background: linear-gradient(135deg, rgba($accent, 0.05), $paper-light 70%);
+
+    &::before {
+      content: "Popular";
+      position: absolute;
+      top: 1rem;
+      right: -2rem;
+      background: $accent;
+      color: $paper-light;
+      padding: 0.25rem 2.5rem;
+      font-size: 0.7rem;
+      font-weight: $font-weight-bold;
+      text-transform: uppercase;
+      transform: rotate(45deg);
+    }
+  }
+
+  &.soft {
+    background: rgba($paper-light, 0.85);
+    border: 1px solid rgba($ink, 0.06);
+    box-shadow: none;
+
+    &:hover {
+      box-shadow: $shadow-sm;
+    }
+  }
+}
+
+// Badges & Pills
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: $mint;
+  color: $leaf;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba($leaf, 0.12);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.chip {
+  display: inline-flex;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: rgba($sun, 0.25);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.tag {
+  display: inline-flex;
+  background: rgba($leaf, 0.12);
+  color: $leaf;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+// Lists
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+  display: grid;
+  gap: 0.5rem;
+
+  li {
+    padding-left: 1.2rem;
+    position: relative;
+
+    &::before {
+      content: "*";
+      position: absolute;
+      left: 0;
+      color: $accent;
+      font-weight: 700;
+    }
+  }
+}
+
+// Pricing
+.pricing {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .price {
+    font-size: 2.4rem;
+    font-family: $font-display;
+    color: $leaf;
+  }
+}
+
+// Notice
+.notice {
+  padding: 0.8rem 1rem;
+  border-radius: $radius-sm;
+  background: rgba($accent, 0.1);
+  color: #7a2a20;
+  font-weight: 600;
+
+  &:empty {
+    display: none;
+  }
+
+  &.success {
+    background: rgba($leaf, 0.1);
+    color: $leaf;
+  }
+}
+
+// FAQ Accordion
+.faq {
+  details {
+    background: $paper-light;
+    border-radius: $radius-sm;
+    padding: 0;
+    box-shadow: $shadow-sm;
+    overflow: hidden;
+    transition: box-shadow $transition-fast;
+
+    &[open] {
+      box-shadow: $shadow;
+
+      summary::after {
+        transform: rotate(180deg);
+      }
+    }
+
+    & + details {
+      margin-top: 1rem;
+    }
+  }
+
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 1.5rem;
+    font-weight: $font-weight-semibold;
+    font-size: 1.05rem;
+    cursor: pointer;
+    list-style: none;
+    transition: background $transition-fast;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::after {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border-right: 2px solid $accent;
+      border-bottom: 2px solid $accent;
+      transform: rotate(45deg);
+      transition: transform $transition-medium;
+      flex-shrink: 0;
+      margin-left: 1rem;
+    }
+
+    &:hover {
+      background: rgba($accent, 0.04);
+    }
+  }
+
+  .faq-content {
+    padding: 0 1.5rem 1.5rem;
+    color: $ink-muted;
+    line-height: 1.7;
+  }
+}
+
+// Admin Panel
+.admin-panel {
+  background: #fff;
+  padding: 2rem;
+  border-radius: $radius-md;
+  box-shadow: $shadow;
+}
+
+.admin-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-row {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: minmax(120px, 1fr) repeat(2, minmax(140px, 1fr));
+
+  strong {
+    display: flex;
+    align-items: center;
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Location Card
+.location-card {
+  background: #fff;
+  padding: 1.6rem;
+  border-radius: $radius-md;
+  box-shadow: $shadow;
+}
+
+// Blog Card
+.blog-card {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.article-hero {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 1.5rem 0 2rem;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+  background: $paper-light;
+}
+
+.blog-card__image {
+  border-radius: $radius-md;
+  overflow: hidden;
+  background: $paper;
+  aspect-ratio: 16 / 10;
+  box-shadow: $shadow-sm;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.article-meta {
+  margin-bottom: 1.2rem;
+}
+
+.share-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 2rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: $radius-sm;
+  background: rgba($accent, 0.08);
+  border: 1px solid rgba($accent, 0.12);
+}
+
+.share-label {
+  font-weight: 600;
+  color: $ink;
+}
+
+.share-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: $radius-full;
+    background: $paper-light;
+    border: 1px solid rgba($ink, 0.08);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $ink;
+    transition: transform $transition-fast, box-shadow $transition-fast;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-sm;
+    }
+  }
+}
+
+.post-nav {
+  display: grid;
+  gap: 1rem;
+  margin: 2rem 0;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.post-nav__item {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1.2rem 1.4rem;
+  border-radius: $radius-md;
+  background: $paper-light;
+  box-shadow: $shadow-sm;
+  border: 1px solid rgba($ink, 0.06);
+  transition: transform $transition-fast, box-shadow $transition-fast;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow;
+  }
+}
+
+.post-nav__label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $ink-muted;
+  font-weight: 600;
+}
+
+.related-posts {
+  margin: 2.5rem 0;
+}
+
+.blog-article {
+  display: grid;
+  gap: 1rem;
+}
+
+.comment-section {
+  margin: 2.5rem 0;
+}
+
+.comment-list {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.comment-card {
+  background: $paper-light;
+  border-radius: $radius-sm;
+  padding: 1rem 1.2rem;
+  border: 1px solid rgba($ink, 0.06);
+  box-shadow: $shadow-sm;
+}
+
+.comment-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  color: $ink-muted;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+
+  strong {
+    color: $ink;
+  }
+}
+
+.comment-author {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.comment-admin {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.comment-admin__details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  font-size: 0.85rem;
+  color: $ink-muted;
+}
+
+.comment-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.comment-empty {
+  color: $ink-muted;
+}
+
+.pill.status-pending {
+  background: rgba($sun, 0.2);
+  color: $ink;
+}
+
+.pill.status-approved {
+  background: rgba($leaf, 0.15);
+  color: $leaf;
+}
+
+.pill.status-rejected {
+  background: rgba($accent-warm, 0.15);
+  color: $accent-warm;
+}
+
+.comment-form {
+  margin-top: 1.5rem;
+
+  .notice {
+    margin-top: 0.75rem;
+  }
+}
+
+.sidebar-card {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.6rem;
+
+  a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: $ink;
+
+    span {
+      color: $ink-muted;
+      font-size: 0.85rem;
+    }
+  }
+}
+
+.blog-search {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.blog-search-meta {
+  font-weight: 600;
+  color: $ink-muted;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 2rem;
+}
+
+.page {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  padding: 0.4rem 0.8rem;
+  border-radius: $radius-full;
+  border: 1px solid rgba($ink, 0.1);
+  background: $paper-light;
+  font-weight: 600;
+  color: $ink;
+
+  &.current {
+    background: $accent;
+    color: $paper-light;
+    border-color: $accent;
+  }
+
+  &.disabled {
+    color: $ink-muted;
+    border-color: rgba($ink, 0.08);
+    background: rgba($paper-light, 0.7);
+  }
+}

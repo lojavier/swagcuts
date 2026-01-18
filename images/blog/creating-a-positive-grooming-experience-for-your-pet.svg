@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f7f0e8"/>
+      <stop offset="100%" stop-color="#f0e7dc"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="980" cy="120" r="120" fill="#2f5d46" opacity="0.16"/>
+  <circle cx="220" cy="520" r="190" fill="#2f5d46" opacity="0.12"/>
+  <rect x="90" y="90" width="1020" height="450" rx="36" fill="#ffffff" opacity="0.9"/>
+  <text x="140" y="210" font-family="Fraunces, serif" font-size="54" fill="#2f5d46">Creating a Positive Grooming</text>
+  <text x="140" y="278" font-family="Fraunces, serif" font-size="54" fill="#2f5d46">Experience for Your Pet</text>
+  <text x="140" y="420" font-family="Work Sans, Arial, sans-serif" font-size="24" fill="#4a504b">Swag Cuts Blog</text>
+</svg>

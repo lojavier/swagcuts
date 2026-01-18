@@ -1,0 +1,74 @@
+[
+  {
+    "id": "organic-lamb-dry-dog-food",
+    "name": "Organic Lamb Dry Dog Food",
+    "price": 38,
+    "category": "food",
+    "tags": ["organic", "high-protein"],
+    "url": "/shop/organic-lamb-dry-dog-food.html"
+  },
+  {
+    "id": "splatter-bone-chew-toy",
+    "name": "Splatter Bone Chew Toy",
+    "price": 14,
+    "category": "toys",
+    "tags": ["durable", "playful"],
+    "url": "/shop/splatter-bone-chew-toy.html"
+  },
+  {
+    "id": "modern-hexagon-pet-house",
+    "name": "Modern Hexagon Pet House",
+    "price": 92,
+    "category": "houses",
+    "tags": ["modern", "cozy"],
+    "url": "/shop/modern-hexagon-pet-house.html"
+  },
+  {
+    "id": "logs-dog-treats",
+    "name": "Logs Dog Treats",
+    "price": 12,
+    "category": "food",
+    "tags": ["training", "healthy"],
+    "url": "/shop/logs-dog-treats.html"
+  },
+  {
+    "id": "green-polka-dot-dog-bed",
+    "name": "Green Polka Dot Dog Bed",
+    "price": 48,
+    "category": "houses",
+    "tags": ["cozy", "washable"],
+    "url": "/shop/green-polka-dot-dog-bed.html"
+  },
+  {
+    "id": "dual-tone-rope-dog-toy",
+    "name": "Dual Tone Rope Dog Toy",
+    "price": 10,
+    "category": "toys",
+    "tags": ["playful", "durable"],
+    "url": "/shop/dual-tone-rope-dog-toy.html"
+  },
+  {
+    "id": "green-canvas-dog-collar",
+    "name": "Green Canvas Dog Collar",
+    "price": 18,
+    "category": "accessories",
+    "tags": ["everyday", "durable"],
+    "url": "/shop/green-canvas-dog-collar.html"
+  },
+  {
+    "id": "red-ceramic-bone-dog-bowl",
+    "name": "Red Ceramic Bone Dog Bowl",
+    "price": 22,
+    "category": "bowls",
+    "tags": ["weighted", "easy-clean"],
+    "url": "/shop/red-ceramic-bone-dog-bowl.html"
+  },
+  {
+    "id": "blue-paw-print-tunnel-bed",
+    "name": "Blue Paw Print Tunnel Bed",
+    "price": 64,
+    "category": "houses",
+    "tags": ["cozy", "enrichment"],
+    "url": "/shop/blue-paw-print-tunnel-bed.html"
+  }
+]

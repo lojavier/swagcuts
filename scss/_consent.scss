@@ -1,0 +1,88 @@
+// ==========================================================================
+// Consent & Policy Banners
+// ==========================================================================
+
+@use 'tokens' as *;
+
+.policy-banner {
+  position: sticky;
+  top: 0;
+  background: $accent;
+  color: #fff;
+  padding: 0.7rem 1rem;
+  text-align: center;
+  z-index: 30;
+  display: none;
+
+  a {
+    color: #fff;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+}
+
+.consent-banner {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  max-width: 420px;
+  background: #fff;
+  border-radius: $radius-md;
+  box-shadow: $shadow;
+  padding: 1.2rem;
+  display: none;
+  z-index: 40;
+
+  &.active {
+    display: block;
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    right: 1rem;
+    left: 1rem;
+    max-width: unset;
+  }
+}
+
+.consent-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.consent-preferences {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  background: rgba($stone, 0.5);
+  border-radius: $radius-sm;
+  display: none;
+
+  &.active {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  label {
+    font-weight: 500;
+  }
+}
+
+.consent-trigger {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  background: #fff;
+  border: 1px solid rgba($ink-muted, 0.2);
+  border-radius: 999px;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: $shadow;
+  z-index: 35;
+
+  @media (max-width: $breakpoint-mobile) {
+    bottom: 0.8rem;
+    left: 0.8rem;
+  }
+}

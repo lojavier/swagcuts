@@ -1,0 +1,22 @@
+# Swag Cuts - robots.txt
+# https://www.swagcuts.com
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.swagcuts.com/sitemap.xml
+
+# Disallow admin and utility pages
+Disallow: /admin.html
+Disallow: /template-crawl.html
+Disallow: /shop/checkout.html
+Disallow: /shop/account.html
+
+# Allow crawling of all public content
+Allow: /blog/
+Allow: /shop/
+Allow: /images/
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1

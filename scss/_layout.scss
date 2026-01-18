@@ -1,0 +1,321 @@
+// ==========================================================================
+// Layout
+// ==========================================================================
+
+@use 'tokens' as *;
+
+.container {
+  width: min($container-max, 92vw);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.section {
+  padding: $section-padding 0;
+
+  &.alt {
+    background: linear-gradient(180deg, rgba($paper-light, 0.85), rgba($paper, 0.6));
+    border-top: 1px solid rgba($ink, 0.04);
+    border-bottom: 1px solid rgba($ink, 0.04);
+  }
+
+  &.accent-bg {
+    background: linear-gradient(135deg, rgba($accent, 0.08), rgba($accent, 0.02));
+  }
+}
+
+.grid {
+  display: grid;
+  gap: $gap-md;
+
+  &.cols-3 {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  &.cols-2 {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+
+  &.cols-4 {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+// Blog Layout
+.blog-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: $gap-lg;
+  align-items: start;
+
+  @media (max-width: $breakpoint-tablet) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.blog-sidebar {
+  display: grid;
+  gap: 1.5rem;
+  position: sticky;
+  top: 1.5rem;
+
+  @media (max-width: $breakpoint-tablet) {
+    position: static;
+  }
+}
+
+// ============================================================================
+// Hero Sections - Template-inspired design
+// ============================================================================
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $gap-lg;
+  align-items: center;
+  padding: 4rem 0 3rem;
+  min-height: 70vh;
+
+  @media (max-width: $breakpoint-tablet) {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    gap: $gap-md;
+    text-align: center;
+  }
+}
+
+.hero-content {
+  max-width: 560px;
+
+  @media (max-width: $breakpoint-tablet) {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+.hero-tagline {
+  display: inline-block;
+  background: rgba($accent, 0.1);
+  color: $accent;
+  padding: 0.5rem 1rem;
+  border-radius: $radius-full;
+  font-size: 0.85rem;
+  font-weight: $font-weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: $font-weight-bold;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  color: $ink;
+
+  .highlight {
+    color: $accent;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0.1em;
+      left: 0;
+      right: 0;
+      height: 0.15em;
+      background: rgba($accent, 0.3);
+      z-index: -1;
+    }
+  }
+}
+
+.hero-description {
+  font-size: 1.15rem;
+  color: $ink-muted;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.page-hero {
+  padding: 4rem 0 3rem;
+  text-align: center;
+
+  .hero-card {
+    margin-top: 2rem;
+  }
+}
+
+.hero-card {
+  background: $paper-light;
+  border-radius: $radius-lg;
+  padding: 2.5rem;
+  box-shadow: $shadow;
+  border: 1px solid rgba($ink, 0.04);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+
+  @media (max-width: $breakpoint-tablet) {
+    justify-content: center;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba($ink, 0.08);
+}
+
+.stat {
+  text-align: center;
+
+  &__value {
+    font-size: 2rem;
+    font-weight: $font-weight-bold;
+    font-family: $font-display;
+    color: $accent;
+    display: block;
+  }
+
+  &__label {
+    font-size: 0.85rem;
+    color: $ink-muted;
+    margin-top: 0.25rem;
+  }
+}
+
+.hero-visual {
+  position: relative;
+
+  @media (max-width: $breakpoint-tablet) {
+    order: -1;
+  }
+}
+
+.hero-image {
+  border-radius: $radius-lg;
+  overflow: hidden;
+  position: relative;
+  min-height: 400px;
+  background: linear-gradient(135deg, rgba($accent, 0.15), rgba($sun, 0.2));
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  box-shadow: $shadow-lg;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 50%, rgba($accent, 0.1));
+    z-index: 1;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 20px;
+    border: 2px dashed rgba($paper-light, 0.4);
+    border-radius: $radius-lg;
+    z-index: 2;
+  }
+
+  span {
+    position: relative;
+    z-index: 3;
+    font-weight: $font-weight-bold;
+    font-size: 1.2rem;
+    color: $paper-light;
+    text-shadow: 0 2px 8px rgba($ink, 0.3);
+  }
+}
+
+// Floating decorative elements
+.hero-decor {
+  position: absolute;
+  pointer-events: none;
+
+  &--1 {
+    top: 10%;
+    right: -30px;
+    width: 60px;
+    height: 60px;
+    background: rgba($sun, 0.2);
+    border-radius: 50%;
+    animation: float 4s ease-in-out infinite;
+  }
+
+  &--2 {
+    bottom: 20%;
+    left: -20px;
+    width: 40px;
+    height: 40px;
+    background: rgba($accent, 0.15);
+    border-radius: 50%;
+    animation: float 3s ease-in-out infinite 0.5s;
+  }
+}
+
+// CTA Strip
+.cta-strip {
+  padding: 1.6rem;
+  border-radius: $radius-md;
+  background: linear-gradient(120deg, rgba($leaf, 0.1), rgba($sun, 0.18));
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+// Footer
+footer {
+  padding: 3rem 0;
+  border-top: 1px solid rgba($ink-muted, 0.12);
+}
+
+.footer-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-weight: 600;
+
+  a {
+    color: $leaf;
+  }
+}
+
+.policy-actions {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}

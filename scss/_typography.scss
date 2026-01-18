@@ -1,0 +1,67 @@
+// ==========================================================================
+// Typography
+// ==========================================================================
+
+@use 'tokens' as *;
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: $font-display;
+  letter-spacing: 0.01em;
+  margin: 0 0 0.75rem;
+}
+
+h1 {
+  font-size: clamp(2.6rem, 4vw, 4rem);
+}
+
+h2 {
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+h3 {
+  font-size: 1.4rem;
+}
+
+small {
+  font-size: 0.85rem;
+  color: $ink-muted;
+}
+
+.section-heading {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.inline-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-weight: 600;
+  color: $ink-muted;
+}
+
+.policy-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  font-weight: 600;
+  color: $ink-muted;
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: $ink-muted;
+  margin-bottom: 1rem;
+
+  a {
+    color: $leaf;
+    font-weight: 600;
+  }
+}

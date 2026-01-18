@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc:*)",
+      "Bash(head:*)",
+      "Bash(find:*)",
+      "Bash(npm install:*)",
+      "Bash(where:*)",
+      "Bash(cmd.exe /c:*)",
+      "Bash(powershell.exe -Command \"Set-Location ''C:\\\\Users\\\\LORENZO\\\\Documents\\\\GitHub\\\\swagcuts''; npm install\")",
+      "Bash(powershell -Command \"Get-ChildItem -Path ''c:\\\\Users\\\\LORENZO\\\\Documents\\\\GitHub\\\\swagcuts'' -Include ''*.html'' -Recurse | Select-Object -ExpandProperty FullName\")",
+      "Bash(powershell -ExecutionPolicy Bypass -File \"c:/Users/LORENZO/Documents/GitHub/swagcuts/update-html.ps1\")",
+      "Bash(powershell -Command:*)",
+      "Bash(git -C \"c:/Users/LORENZO/Documents/GitHub/swagcuts\" status --short)",
+      "Bash(powershell -NoProfile -Command \"\\(Get-Content pricing.html -Raw\\) -replace ''<meta name=\"\"description\"\" content=\"\"[^\"\"]*\"\">'', ''<meta name=\"\"description\"\" content=\"\"Transparent dog grooming prices starting at $55. Small, medium, and large dog packages with no hidden fees. Serving Oakley, California.\"\">'' | Out-File pricing.html -Encoding utf8 -NoNewline\")",
+      "Bash(powershell -NoProfile -Command \"\\(Get-Content pricing.html -Raw\\) -replace ''<meta property=\"\"og:description\"\" content=\"\"[^\"\"]*\"\">'', ''<meta property=\"\"og:description\"\" content=\"\"Transparent dog grooming prices starting at $55. Small, medium, and large dog packages with no hidden fees. Serving Oakley, California.\"\">'' | Out-File pricing.html -Encoding utf8 -NoNewline\")",
+      "Bash(powershell -NoProfile -Command \"\\(Get-Content pricing.html -Raw\\) -replace ''<meta name=\"\"twitter:description\"\" content=\"\"[^\"\"]*\"\">'', ''<meta name=\"\"twitter:description\"\" content=\"\"Transparent dog grooming prices starting at $55. Small, medium, and large dog packages with no hidden fees. Serving Oakley, California.\"\">'' | Out-File pricing.html -Encoding utf8 -NoNewline\")",
+      "Bash(git checkout:*)"
+    ]
+  }
+}

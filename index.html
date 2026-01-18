@@ -1,40 +1,550 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>Swag Cuts</title>
-	<meta name="description" content="Dog Grooming">
-	<meta name="author" content="Swag Cuts">
-	<!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
-	<!--[if lt IE 9]>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
-	<![endif]-->
-	<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.8.1/pixi.min.js"></script> -->
-	<script type="text/javascript" src="./js/pixi.min.js"></script>
-	<script type="text/javascript" src="./js/pixi-tween.js"></script>
-	<style>
-		body, html { margin: 0; padding: 0; }
-		canvas { padding: 0; margin: 0; overflow-y: scroll; width: 100%; height: 100%; } /*position: fixed;  }*/
-		#navbar {
-		    overflow: hidden;
-		    position: fixed; /* Set the navbar to fixed position */
-		}
-		#main {
-		    overflow-y: scroll;
-		    -webkit-overflow-scrolling: touch;
-		}
-	</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Swag Cuts Grooming</title>
+  <meta name="description" content="Swag Cuts provides modern dog grooming in Oakley, California with easy booking, clear pricing, and trusted pet care.">
+  <link rel="canonical" href="https://www.swagcuts.com/">
+  <meta property="og:title" content="Swag Cuts Grooming">
+  <meta property="og:description" content="Modern grooming in Oakley, California with easy booking, clear pricing, and trusted pet care.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.swagcuts.com/">
+  <meta property="og:image" content="https://www.swagcuts.com/images/swag-cuts-main-logo.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Swag Cuts Grooming">
+  <meta name="twitter:description" content="Modern grooming in Oakley, California with easy booking, clear pricing, and trusted pet care.">
+  <meta name="twitter:image" content="https://www.swagcuts.com/images/swag-cuts-main-logo.png">
+  <link rel="alternate" type="application/rss+xml" title="Swag Cuts Blog RSS Feed" href="https://www.swagcuts.com/feed.xml">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Lato:wght@400;700&family=Fraunces:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/scss/main.scss">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Swag Cuts",
+    "url": "https://www.swagcuts.com/",
+    "description": "Modern dog grooming with easy booking and clear pricing in Oakley, California.",
+    "areaServed": "Oakley, CA",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Oakley",
+      "addressRegion": "CA",
+      "addressCountry": "US"
+    },
+    "serviceType": "Dog grooming"
+  }
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="policy-banner" id="policy-banner" role="status">
+    Our policies were updated. Please review before booking. <a href="#booking">Review agreements</a>
+  </div>
 
-	<div class="navbar" id="navbar"></div>
-	<div class="main" id="main"></div>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">Swag Cuts</div>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-nav">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <nav class="nav-links" id="primary-nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="shop/index.html">Shop</a>
+        <a href="blog/index.html">Blog</a>
+        <a href="contact.html">Contact</a>
+        <a href="index.html#booking">Book</a>
+      </nav>
+    </div>
+  </header>
 
-	<script type="text/javascript" src="./js/view.js"></script>
-	<script type="text/javascript" src="./js/TextComponent.js"></script>
-	<script type="text/javascript" src="./js/NavBarComponent.js"></script>
-	<script type="text/javascript" src="./js/HomeComponent.js"></script>
-	<script type="text/javascript" src="./js/init.js"></script>
+  <main id="main">
+    <section class="section">
+      <div class="container hero">
+        <div class="hero-content reveal-left">
+          <span class="hero-tagline">Grooming with swagger</span>
+          <h1 class="hero-title">Where clean coats meet <span class="highlight">bold style</span>.</h1>
+          <p class="hero-description">Swag Cuts makes booking easy, pricing clear, and pets comfortable. Serving Oakley, California with grooming plans that fit your schedule and your pup.</p>
+          <div class="hero-actions">
+            <a class="btn primary lg" href="#booking">Book appointment</a>
+            <a class="btn outline" href="#pricing">See pricing</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat__value">60 min</span>
+              <span class="stat__label">Quick drop-off</span>
+            </div>
+            <div class="stat">
+              <span class="stat__value">5-star</span>
+              <span class="stat__label">Vet-approved</span>
+            </div>
+            <div class="stat">
+              <span class="stat__value">5 steps</span>
+              <span class="stat__label">Full care</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual reveal-right">
+          <div class="hero-image">
+            <span>Fresh look, fresh energy</span>
+          </div>
+          <div class="hero-decor hero-decor--1"></div>
+          <div class="hero-decor hero-decor--2"></div>
+        </div>
+      </div>
+    </section>
 
+    <section class="section alt" id="services">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Services built for every coat</h2>
+          <p>Customized grooming that keeps your dog calm, clean, and confident.</p>
+        </div>
+        <div class="grid cols-3">
+          <div class="card reveal">
+            <h3>Signature Groom</h3>
+            <p>Full service bath, haircut, blow dry, nail trim, and scent finish.</p>
+            <ul class="list">
+              <li>Coat analysis</li>
+              <li>Custom trim</li>
+              <li>Finishing spray</li>
+            </ul>
+          </div>
+          <div class="card reveal">
+            <h3>Bath and Tidy</h3>
+            <p>Perfect for in-between visits or short coat maintenance.</p>
+            <ul class="list">
+              <li>Gentle bath</li>
+              <li>Quick tidy trim</li>
+              <li>Paw balm</li>
+            </ul>
+          </div>
+          <div class="card reveal">
+            <h3>Special Care</h3>
+            <p>Extra time for seniors, anxious pups, or sensitive skin.</p>
+            <ul class="list">
+              <li>Hypoallergenic wash</li>
+              <li>Quiet drying</li>
+              <li>One-on-one handling</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Simple pricing, no surprises</h2>
+          <p>Final price adjusts by coat condition, size, and add-ons selected.</p>
+        </div>
+        <div class="grid cols-3">
+          <div class="card reveal">
+            <span class="chip">Small</span>
+            <div class="pricing">
+              <div class="price">$55</div>
+              <small>Under 25 lbs</small>
+            </div>
+            <ul class="list">
+              <li>Bath and tidy</li>
+              <li>Nail trim</li>
+              <li>Ear cleaning</li>
+            </ul>
+          </div>
+          <div class="card highlight reveal">
+            <span class="chip">Medium</span>
+            <div class="pricing">
+              <div class="price">$75</div>
+              <small>25 to 55 lbs</small>
+            </div>
+            <ul class="list">
+              <li>Signature groom</li>
+              <li>Hydration mask</li>
+              <li>Style finish</li>
+            </ul>
+          </div>
+          <div class="card reveal">
+            <span class="chip">Large</span>
+            <div class="pricing">
+              <div class="price">$95</div>
+              <small>55 lbs and up</small>
+            </div>
+            <ul class="list">
+              <li>Extra time</li>
+              <li>De-shedding</li>
+              <li>Coat conditioning</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Explore more</h2>
+          <p>Learn about our team, policies, and what makes Swag Cuts different.</p>
+        </div>
+        <div class="grid cols-3">
+          <div class="card reveal">
+            <h3>About Swag Cuts</h3>
+            <p>Our mission, values, and Oakley roots.</p>
+            <a class="btn outline" href="about.html">Learn more</a>
+          </div>
+          <div class="card reveal">
+            <h3>Meet the team</h3>
+            <p>Get to know the groomers behind the glow.</p>
+            <a class="btn outline" href="team.html">Meet the team</a>
+          </div>
+          <div class="card reveal">
+            <h3>FAQ</h3>
+            <p>Answers to common grooming questions.</p>
+            <a class="btn outline" href="faq.html">Read FAQs</a>
+          </div>
+          <div class="card reveal">
+            <h3>Testimonials</h3>
+            <p>Hear from Oakley pet parents.</p>
+            <a class="btn outline" href="testimonials.html">Read reviews</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="booking">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Request an appointment</h2>
+          <p>We will confirm availability and send text or email updates.</p>
+        </div>
+        <div class="grid cols-2">
+          <div class="card reveal">
+            <form id="booking-form" novalidate>
+              <div class="form-row">
+                <div>
+                  <label for="name">Full name</label>
+                  <input id="name" name="name" type="text" required>
+                </div>
+                <div>
+                  <label for="email">Email address</label>
+                  <input id="email" name="email" type="email" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div>
+                  <label for="phone">Mobile phone</label>
+                  <input id="phone" name="phone" type="tel" placeholder="Mobile number">
+                </div>
+                <div>
+                  <label for="pet">Pet name</label>
+                  <input id="pet" name="pet" type="text" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div>
+                  <label for="size">Pet size</label>
+                  <select id="size" name="size" required>
+                    <option value="">Select size</option>
+                    <option value="small">Small (under 25 lbs)</option>
+                    <option value="medium">Medium (25 to 55 lbs)</option>
+                    <option value="large">Large (55 lbs and up)</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="service">Service</label>
+                  <select id="service" name="service" required>
+                    <option value="">Select service</option>
+                    <option value="signature">Signature Groom</option>
+                    <option value="bath">Bath and Tidy</option>
+                    <option value="special">Special Care</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div>
+                  <label for="date">Preferred date</label>
+                  <input id="date" name="date" type="date" required>
+                </div>
+                <div>
+                  <label for="time">Preferred time</label>
+                  <input id="time" name="time" type="time" required>
+                </div>
+              </div>
+              <div>
+                <label for="notes">Notes for the groomer</label>
+                <textarea id="notes" name="notes" placeholder="Allergies, coat concerns, or handling notes"></textarea>
+              </div>
+              <div class="form-note">
+                <strong>Legal agreements</strong>
+                <p>Please review and acknowledge the required policies before booking.</p>
+                  <div class="checkbox-group">
+                    <label>
+                      <input type="checkbox" required data-policy-check="terms">
+                      I agree to the <a href="terms.html">Terms of Service</a>.
+                    </label>
+                    <label>
+                      <input type="checkbox" required data-policy-check="privacy">
+                      I acknowledge the <a href="privacy.html">Privacy Policy</a>.
+                    </label>
+                    <label>
+                      <input type="checkbox" required data-policy-check="grooming">
+                      I agree to the <a href="grooming-waiver.html">Grooming Waiver and Release</a>.
+                    </label>
+                  <label>
+                    <input type="checkbox" required data-policy-check="cancellation">
+                    I agree to the <a href="cancellation.html">Cancellation and No-Show Policy</a>.
+                  </label>
+                    <label>
+                      <input type="checkbox" data-consent="sms">
+                      Send appointment updates by SMS. Message and data rates may apply. Reply STOP to opt out.
+                    </label>
+                  <label>
+                    <input type="checkbox" data-consent="email">
+                    Send appointment updates by email.
+                  </label>
+                    <label>
+                      <input type="checkbox" data-consent="marketing">
+                      I want occasional promotions and product updates.
+                    </label>
+                  </div>
+                  <small>Consent for marketing is optional and not required to book.</small>
+                </div>
+              <button class="btn primary" type="submit">Request appointment</button>
+              <div class="notice" id="booking-message" role="status" aria-live="polite"></div>
+            </form>
+          </div>
+          <div class="card reveal">
+            <h3>What happens next</h3>
+            <ul class="list">
+              <li>We confirm the slot within one business day.</li>
+              <li>You receive a booking link with pricing details.</li>
+              <li>Automatic reminders go out 24 hours and 2 hours before.</li>
+            </ul>
+            <div class="form-note">
+              <strong>Need immediate help?</strong>
+              <p>Call, text, or email hello@swagcuts.com for same-day availability.</p>
+            </div>
+            <div class="form-note">
+              <strong>Policy versions</strong>
+              <div class="policy-meta">
+                <span>Terms v<span data-policy-version="terms"></span></span>
+                <span>Privacy v<span data-policy-version="privacy"></span></span>
+                <span>Waiver v<span data-policy-version="grooming"></span></span>
+                <span>Cancellation v<span data-policy-version="cancellation"></span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="notifications">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Text and email notifications</h2>
+          <p>Keep everyone informed before, during, and after each visit.</p>
+        </div>
+        <div class="grid cols-3">
+          <div class="card reveal">
+            <h3>Booking confirmation</h3>
+            <p>Instant email with your groomer, pricing estimate, and prep checklist.</p>
+          </div>
+          <div class="card reveal">
+            <h3>Appointment reminders</h3>
+            <p>Automated SMS 24 hours and 2 hours before your slot.</p>
+          </div>
+          <div class="card reveal">
+            <h3>Post-visit follow up</h3>
+            <p>Care tips, product links, and rebook prompts sent after each groom.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="shop">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Curated products and affiliate picks</h2>
+          <p>Shop trusted essentials or earn rewards by sharing your favorites.</p>
+        </div>
+        <div class="grid cols-3">
+          <div class="card reveal">
+            <h3>Organic Lamb Dry Dog Food</h3>
+            <p>High-protein kibble for active pups.</p>
+            <div class="pricing">
+              <div class="price">$38</div>
+              <small>Affiliate link</small>
+            </div>
+            <a class="btn outline" href="shop/organic-lamb-dry-dog-food.html" rel="sponsored nofollow">View product</a>
+          </div>
+          <div class="card reveal">
+            <h3>Splatter Bone Chew Toy</h3>
+            <p>Durable toy for energetic chewers.</p>
+            <div class="pricing">
+              <div class="price">$14</div>
+              <small>Affiliate link</small>
+            </div>
+            <a class="btn outline" href="shop/splatter-bone-chew-toy.html" rel="sponsored nofollow">View product</a>
+          </div>
+          <div class="card reveal">
+            <h3>Modern Hexagon Pet House</h3>
+            <p>Cozy indoor den with a soft cushion.</p>
+            <div class="pricing">
+              <div class="price">$92</div>
+              <small>Affiliate link</small>
+            </div>
+            <a class="btn outline" href="shop/modern-hexagon-pet-house.html" rel="sponsored nofollow">View product</a>
+          </div>
+        </div>
+        <div class="cta-strip">
+          <div>
+            <strong>Browse the full shop</strong>
+            <p>Curated grooming essentials with affiliate support.</p>
+          </div>
+          <a class="btn primary" href="shop/index.html">Visit shop</a>
+        </div>
+        <small>Affiliate disclosure: We may earn a commission if you buy through affiliate links.</small>
+      </div>
+    </section>
+
+    <section class="section" id="affiliate">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Influencer and affiliate program</h2>
+          <p>Creators earn rewards for referrals, content, and product sales.</p>
+        </div>
+        <div class="grid cols-2">
+          <div class="card reveal">
+            <h3>Share your link</h3>
+            <p>Unique tracking links and discount codes for your audience.</p>
+            <ul class="list">
+              <li>Custom landing pages</li>
+              <li>Monthly payout dashboard</li>
+              <li>Creative brief templates</li>
+            </ul>
+          </div>
+          <div class="card reveal">
+            <h3>Sell your products</h3>
+            <p>Highlight your favorite pet-care products inside our blog and shop.</p>
+            <ul class="list">
+              <li>Sponsored blog posts</li>
+              <li>Product bundles</li>
+              <li>Launch announcements</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="blog">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Blog and care guides</h2>
+          <p>SEO-ready articles that drive product clicks and grooming tips.</p>
+        </div>
+        <div class="grid cols-3">
+          <div class="card blog-card reveal">
+            <span class="tag">Guide</span>
+            <h3>Puppy grooming checklist</h3>
+            <p>Prep your pup with safe steps for first-time grooming.</p>
+            <a class="btn outline" href="blog/puppy-grooming-checklist.html">Read article</a>
+          </div>
+          <div class="card blog-card reveal">
+            <span class="tag">Seasonal</span>
+            <h3>Shedding season essentials</h3>
+            <p>Tools and routines that keep fur under control.</p>
+            <a class="btn outline" href="blog/shedding-season-guide.html">Read article</a>
+          </div>
+          <div class="card blog-card reveal">
+            <span class="tag">Product</span>
+            <h3>Top shampoos for sensitive skin</h3>
+            <p>Affiliate picks with a gentle ingredient focus.</p>
+            <a class="btn outline" href="blog/index.html">Browse blog</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="legal">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Legal and policy center</h2>
+          <p>These policies explain how we care for pets and protect your data.</p>
+        </div>
+        <div class="legal-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="privacy.html#california-privacy-rights">California Privacy Rights</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="grooming-waiver.html">Grooming Waiver</a>
+          <a href="cancellation.html">Cancellation Policy</a>
+          <a href="cookie-policy.html">Cookie Policy</a>
+          <a href="affiliate-disclosure.html">Affiliate Disclosure</a>
+          <a href="accessibility.html">Accessibility Statement</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <div class="brand">Swag Cuts</div>
+        <p>Modern grooming for confident pets.</p>
+        <small>Serving Oakley, CA</small>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p>Email: hello@swagcuts.com</p>
+      </div>
+      <div>
+        <h3>Policies</h3>
+        <div class="legal-links">
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="privacy.html#california-privacy-rights">California Privacy Rights</a>
+          <a href="cookie-policy.html">Cookies</a>
+          <a href="accessibility.html">Accessibility</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button class="consent-trigger" id="open-consent" type="button">Privacy controls</button>
+
+  <div class="consent-banner" id="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie preferences">
+    <strong>We use cookies</strong>
+    <p>Choose how we use cookies for analytics and marketing. You can update this anytime.</p>
+    <div class="consent-actions">
+      <button class="btn primary" data-consent="all" type="button">Accept all</button>
+      <button class="btn outline" data-consent="essential" type="button">Essential only</button>
+      <button class="btn outline" data-consent="manage" type="button">Manage</button>
+    </div>
+    <div class="consent-preferences" id="consent-preferences">
+      <label>
+        <input type="checkbox" data-consent-option="analytics">
+        Allow analytics cookies.
+      </label>
+      <label>
+        <input type="checkbox" data-consent-option="marketing">
+        Allow marketing cookies.
+      </label>
+      <button class="btn primary" data-consent="save" type="button">Save preferences</button>
+    </div>
+    <small>See our <a href="cookie-policy.html">Cookie Policy</a> for details.</small>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/site.js"></script>
 </body>
 </html>
+
+
