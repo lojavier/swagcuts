@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" fill="none">
+  <rect width="400" height="480" fill="#f5f0e1"/>
+  <rect x="20" y="20" width="360" height="440" rx="24" fill="#fff" stroke="#e2d6c7" stroke-width="2"/>
+  <!-- Bone toy shape -->
+  <ellipse cx="120" cy="240" rx="50" ry="35" fill="#50bfdd" opacity="0.2"/>
+  <ellipse cx="280" cy="240" rx="50" ry="35" fill="#50bfdd" opacity="0.2"/>
+  <rect x="120" y="215" width="160" height="50" fill="#50bfdd" opacity="0.2"/>
+  <ellipse cx="120" cy="240" rx="50" ry="35" stroke="#50bfdd" stroke-width="3" fill="none"/>
+  <ellipse cx="280" cy="240" rx="50" ry="35" stroke="#50bfdd" stroke-width="3" fill="none"/>
+  <line x1="120" y1="205" x2="280" y2="205" stroke="#50bfdd" stroke-width="3"/>
+  <line x1="120" y1="275" x2="280" y2="275" stroke="#50bfdd" stroke-width="3"/>
+  <!-- Splatter dots -->
+  <circle cx="150" cy="180" r="8" fill="#d64c3b" opacity="0.6"/>
+  <circle cx="200" cy="160" r="12" fill="#d64c3b" opacity="0.5"/>
+  <circle cx="260" cy="175" r="6" fill="#d64c3b" opacity="0.7"/>
+  <circle cx="140" cy="300" r="10" fill="#d64c3b" opacity="0.5"/>
+  <circle cx="220" cy="320" r="7" fill="#d64c3b" opacity="0.6"/>
+  <circle cx="270" cy="305" r="9" fill="#d64c3b" opacity="0.4"/>
+  <!-- Texture lines on bone -->
+  <path d="M160 230 Q200 220 240 230" stroke="#332f20" stroke-width="2" opacity="0.2" fill="none"/>
+  <path d="M160 250 Q200 260 240 250" stroke="#332f20" stroke-width="2" opacity="0.2" fill="none"/>
+</svg>

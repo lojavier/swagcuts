@@ -1,4 +1,4 @@
-const { addToCart, createCheckout, getCart } = require("../services/commerce");
+const { addToCart, clearCart, createCheckout, getCart } = require("../services/commerce");
 const { validateCartItem, validators, sanitize } = require("../middleware/validate");
 
 const get = async ({ query }) => {
@@ -87,8 +87,45 @@ const checkout = async ({ body }) => {
   };
 };
 
+const clear = async ({ body }) => {
+  const cartId = body?.cartId;
+  if (!cartId) {
+    return {
+      status: 400,
+      body: {
+        error: "Missing cartId."
+      }
+    };
+  }
+
+  if (typeof cartId !== "string" || cartId.length > 100) {
+    return {
+      status: 400,
+      body: {
+        error: "Invalid cartId format."
+      }
+    };
+  }
+
+  const result = await clearCart(cartId);
+  if (!result) {
+    return {
+      status: 404,
+      body: {
+        error: "Cart not found."
+      }
+    };
+  }
+
+  return {
+    status: 200,
+    body: result
+  };
+};
+
 module.exports = {
   get,
   addItem,
-  checkout
+  checkout,
+  clear
 };

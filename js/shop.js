@@ -21,6 +21,33 @@
     storage.write(CART_KEY, items);
   };
 
+  const mergeCartItem = (items, payload) => {
+    const quantity = Number.parseInt(payload.quantity, 10) || 1;
+    const price = Number.isFinite(payload.price) ? payload.price : null;
+    const existing = items.find((item) => item.productId === payload.productId);
+    if (existing) {
+      existing.quantity = (existing.quantity || 0) + quantity;
+      existing.price = price ?? existing.price ?? null;
+      existing.name = payload.name || existing.name || null;
+      existing.updatedAt = new Date().toISOString();
+      return items;
+    }
+    items.push({
+      ...payload,
+      quantity,
+      price,
+      addedAt: new Date().toISOString()
+    });
+    return items;
+  };
+
+  const persistLocalCart = (payload) => {
+    const existing = readCart();
+    const updated = mergeCartItem(existing, payload);
+    writeCart(updated);
+    updateCartActivity();
+  };
+
   const getCartActivity = () => storage?.read(CART_ACTIVITY_KEY) || null;
 
   const updateCartActivity = () => {
@@ -69,16 +96,13 @@
         if (response?.cartId && storage) {
           storage.write(CART_ID_KEY, response.cartId);
         }
-        updateCartActivity();
+        persistLocalCart(payload);
         return;
       } catch (error) {
         // Fall back to local cart storage.
       }
     }
-    const existing = readCart();
-    existing.push({ ...payload, addedAt: new Date().toISOString() });
-    writeCart(existing);
-    updateCartActivity();
+    persistLocalCart(payload);
   };
 
   const updateButtonState = (button, label) => {

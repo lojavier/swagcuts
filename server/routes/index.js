@@ -20,6 +20,7 @@ const routes = {
   [`POST ${prefix}/comments/moderate`]: comments.moderate,
   [`GET ${prefix}/cart`]: cart.get,
   [`POST ${prefix}/cart/items`]: cart.addItem,
+  [`POST ${prefix}/cart/clear`]: cart.clear,
   [`POST ${prefix}/checkout`]: cart.checkout,
   [`POST ${prefix}/events`]: events.create,
   [`GET ${prefix}/events`]: events.list

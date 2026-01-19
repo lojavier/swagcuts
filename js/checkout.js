@@ -6,6 +6,8 @@
   const CART_ID_KEY = "swagcuts.cartId";
 
   const formatPrice = (value) => `$${Number(value || 0).toFixed(2)}`;
+  const getItemCount = (items) =>
+    items.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
   const readLocalCart = () => {
     if (!storage) {
@@ -74,7 +76,7 @@
         items: localItems
       };
       analytics?.track("checkout_start", {
-        itemCount: localItems.length
+        itemCount: getItemCount(localItems)
       });
 
       if (!API) {
@@ -110,19 +112,19 @@
     if (cart?.items) {
       renderSummary(cart.items, cart.total || 0);
       analytics?.track("checkout_view", {
-        itemCount: cart.items.length,
+        itemCount: getItemCount(cart.items),
         total: cart.total || 0
       });
       return;
     }
     const items = readLocalCart();
-    const total = items.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 0), 0);
+    const total = items.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
     renderSummary(items, total);
     if (message && items.length) {
       message.textContent = "Using local cart cache. Connect the API for live checkout.";
     }
     analytics?.track("checkout_view", {
-      itemCount: items.length,
+      itemCount: getItemCount(items),
       total
     });
   };

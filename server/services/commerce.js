@@ -53,6 +53,28 @@ const addToCart = async (item) => {
   };
 };
 
+const clearCart = async (cartId) => {
+  if (!isConfigured()) {
+    return {
+      cartId,
+      status: "cleared"
+    };
+  }
+
+  const cartResult = await query("SELECT id FROM carts WHERE id = $1", [cartId]);
+  if (!cartResult.rows.length) {
+    return null;
+  }
+
+  await query("DELETE FROM cart_items WHERE cart_id = $1", [cartId]);
+  await query("UPDATE carts SET updated_at = now(), status = 'open' WHERE id = $1", [cartId]);
+
+  return {
+    cartId,
+    status: "cleared"
+  };
+};
+
 const getCart = async (cartId) => {
   if (!isConfigured()) {
     return null;
@@ -96,6 +118,7 @@ const createCheckout = async ({ items, cartId }) => {
 module.exports = {
   listProducts,
   addToCart,
+  clearCart,
   getCart,
   createCheckout
 };

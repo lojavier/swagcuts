@@ -2,28 +2,70 @@
 // Shop & Products
 // ==========================================================================
 
+@use 'sass:color';
 @use 'tokens' as *;
 
 .product-hero {
   display: grid;
   gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  align-items: center;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+
+  @media (max-width: $breakpoint-tablet) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .product-gallery {
-  background: linear-gradient(135deg, rgba($leaf, 0.2), rgba($sun, 0.3));
+  background: linear-gradient(135deg, rgba($paper-light, 1), rgba($stone, 0.3));
   border-radius: $radius-lg;
-  min-height: 280px;
-  display: grid;
-  place-items: center;
-  color: #fff;
-  font-weight: 700;
+  overflow: hidden;
+  aspect-ratio: 5 / 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba($ink, 0.06);
+  box-shadow: $shadow-sm;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+// Product card image for listings
+.product-card__image {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: $radius-md $radius-md 0 0;
+  background: linear-gradient(135deg, rgba($paper-light, 1), rgba($stone, 0.2));
+  margin: -1.5rem -1.5rem 1rem -1.5rem;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform $transition-medium;
+  }
+}
+
+.card:hover .product-card__image img {
+  transform: scale(1.03);
 }
 
 .price-tag {
   font-size: 2rem;
   font-family: $font-display;
+  font-weight: $font-weight-bold;
+  color: $leaf;
+}
+
+// Price display in cards
+.price {
+  font-size: 1.25rem;
+  font-family: $font-display;
+  font-weight: $font-weight-bold;
   color: $leaf;
 }
 
@@ -32,4 +74,103 @@
   flex-wrap: wrap;
   gap: 0.75rem;
   margin-bottom: 1.5rem;
+}
+
+// Product count and sorting
+.shop-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: $ink-muted;
+}
+
+// Star ratings
+.star-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+  margin-bottom: 0.5rem;
+
+  .star {
+    width: 1rem;
+    height: 1rem;
+    color: $sunset;
+
+    &.empty {
+      color: rgba($ink, 0.2);
+    }
+  }
+
+  .rating-count {
+    margin-left: 0.5rem;
+    font-size: 0.85rem;
+    color: $ink-muted;
+  }
+}
+
+// Large star rating for product pages
+.star-rating--lg {
+  .star {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .rating-count {
+    font-size: 1rem;
+  }
+}
+
+.product-rating {
+  margin: 0.75rem 0 1rem;
+}
+
+// Product badges (sale, stock, new)
+.product-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: $font-weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: $radius-sm;
+
+  &--sale {
+    background: $sunset;
+    color: $paper;
+  }
+
+  &--new {
+    background: $leaf;
+    color: $paper;
+  }
+
+  &--low-stock {
+    background: rgba($sunset, 0.15);
+    color: color.adjust($sunset, $lightness: -10%);
+  }
+
+  &--out {
+    background: rgba($ink, 0.1);
+    color: $ink-muted;
+  }
+}
+
+// Badge container for product cards
+.product-card__badges {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 1;
+}
+
+// Make product card image container relative for badges
+.product-card__image {
+  position: relative;
 }

@@ -19,6 +19,7 @@ $accent-warm-dark: #b23a2c;   // Darker warm accent
 // Supporting Colors
 $leaf: #2f5d46;               // Forest green
 $sun: #f3b42c;                // Golden yellow
+$sunset: $accent-warm;        // Warm highlight for ratings and sales
 $stone: #e2d6c7;              // Neutral stone
 $mint: #bfe3d0;               // Light mint green
 $coral: #ff6b6b;              // Coral for highlights
@@ -77,6 +78,7 @@ $transition-bounce: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   --accent-warm-dark: #{$accent-warm-dark};
   --leaf: #{$leaf};
   --sun: #{$sun};
+  --sunset: #{$sunset};
   --stone: #{$stone};
   --mint: #{$mint};
   --coral: #{$coral};
