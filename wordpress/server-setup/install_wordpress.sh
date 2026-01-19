@@ -35,9 +35,12 @@ ENABLE_SSL="${ENABLE_SSL:-yes}"
 LE_EMAIL="${LE_EMAIL:-}"
 THEME_ZIP_PATH="${THEME_ZIP_PATH:-}"
 CHILD_THEME_ZIP_PATH="${CHILD_THEME_ZIP_PATH:-}"
+THEME_SLUG="${THEME_SLUG:-pets-grooming}"
+CHILD_THEME_SLUG="${CHILD_THEME_SLUG:-pets-grooming-child}"
 TRX_ADDONS_ZIP_PATH="${TRX_ADDONS_ZIP_PATH:-}"
 THEMEREX_UPDATER_ZIP_PATH="${THEMEREX_UPDATER_ZIP_PATH:-}"
 INSTALL_TRX_ADDONS="${INSTALL_TRX_ADDONS:-no}"
+AUTO_FIND_BUNDLED_PLUGINS="${AUTO_FIND_BUNDLED_PLUGINS:-yes}"
 PLUGINS_TO_INSTALL="${PLUGINS_TO_INSTALL:-}"
 PHP_MAX_EXECUTION_TIME="${PHP_MAX_EXECUTION_TIME:-600}"
 PHP_MAX_INPUT_TIME="${PHP_MAX_INPUT_TIME:-600}"
@@ -45,6 +48,15 @@ PHP_MEMORY_LIMIT="${PHP_MEMORY_LIMIT:-256M}"
 PHP_POST_MAX_SIZE="${PHP_POST_MAX_SIZE:-32M}"
 PHP_UPLOAD_MAX_FILESIZE="${PHP_UPLOAD_MAX_FILESIZE:-32M}"
 PHP_MAX_INPUT_VARS="${PHP_MAX_INPUT_VARS:-3000}"
+SET_TIMEZONE="${SET_TIMEZONE:-}"
+ENABLE_UFW="${ENABLE_UFW:-no}"
+UFW_SSH_PORT="${UFW_SSH_PORT:-22}"
+ENABLE_FAIL2BAN="${ENABLE_FAIL2BAN:-no}"
+ENABLE_UNATTENDED_UPGRADES="${ENABLE_UNATTENDED_UPGRADES:-no}"
+SWAP_SIZE="${SWAP_SIZE:-}"
+SWAP_PATH="${SWAP_PATH:-/swapfile}"
+RUN_MYSQL_SECURE_INSTALLATION="${RUN_MYSQL_SECURE_INSTALLATION:-no}"
+BUNDLED_TMP_DIR=""
 
 prompt_if_empty() {
   local var_name="$1"
@@ -66,6 +78,55 @@ prompt_if_empty() {
   export "$var_name=$current_value"
 }
 
+log() {
+  echo "==> $*"
+}
+
+warn() {
+  echo "Warning: $*" >&2
+}
+
+cleanup_tmp() {
+  if [[ -n "${BUNDLED_TMP_DIR}" && -d "${BUNDLED_TMP_DIR}" ]]; then
+    rm -rf "${BUNDLED_TMP_DIR}"
+  fi
+}
+
+find_bundled_zip() {
+  local name="$1"
+  local found=""
+
+  if [[ -n "${THEME_ZIP_PATH}" ]]; then
+    local theme_dir
+    theme_dir="$(dirname "${THEME_ZIP_PATH}")"
+    if [[ -f "${theme_dir}/${name}.zip" ]]; then
+      echo "${theme_dir}/${name}.zip"
+      return 0
+    fi
+    if [[ -f "${theme_dir}/plugins.zip" ]]; then
+      BUNDLED_TMP_DIR="${BUNDLED_TMP_DIR:-$(mktemp -d -t swagcuts-plugins-XXXXXX)}"
+      unzip -q -j "${theme_dir}/plugins.zip" "*${name}*.zip" -d "${BUNDLED_TMP_DIR}" || true
+      found="$(find "${BUNDLED_TMP_DIR}" -maxdepth 1 -type f -name "${name}*.zip" | head -n 1)"
+      if [[ -n "${found}" ]]; then
+        echo "${found}"
+        return 0
+      fi
+    fi
+  fi
+
+  if [[ -d "${SITE_ROOT}/wp-content/themes/${THEME_SLUG}" ]]; then
+    found="$(find "${SITE_ROOT}/wp-content/themes/${THEME_SLUG}" -maxdepth 4 -type f -name "${name}*.zip" | head -n 1)"
+    if [[ -n "${found}" ]]; then
+      echo "${found}"
+      return 0
+    fi
+  fi
+
+  return 1
+}
+
+trap cleanup_tmp EXIT
+
 prompt_if_empty DB_PASS "Enter MariaDB password for ${DB_USER}" yes
 prompt_if_empty WP_ADMIN_USER "Enter WP admin username" no
 prompt_if_empty WP_ADMIN_PASS "Enter WP admin password" yes
@@ -76,10 +137,51 @@ if [[ "$ENABLE_SSL" == "yes" ]]; then
 fi
 
 apt update && apt upgrade -y
-apt install -y nginx mariadb-server php-fpm php-cli php-mysql php-xml php-gd php-curl php-zip php-mbstring php-intl php-opcache php-bcmath unzip curl rsync
+apt install -y nginx mariadb-server php-fpm php-cli php-mysql php-xml php-gd php-curl php-zip php-mbstring php-intl php-opcache php-bcmath unzip curl rsync git ufw fail2ban unattended-upgrades
+
+if [[ -n "${SET_TIMEZONE}" ]] && command -v timedatectl >/dev/null 2>&1; then
+  timedatectl set-timezone "${SET_TIMEZONE}"
+fi
+
+if [[ -n "${SWAP_SIZE}" && "${SWAP_SIZE}" != "0" ]]; then
+  if ! swapon --show | grep -q "${SWAP_PATH}"; then
+    fallocate -l "${SWAP_SIZE}" "${SWAP_PATH}"
+    chmod 600 "${SWAP_PATH}"
+    mkswap "${SWAP_PATH}"
+    swapon "${SWAP_PATH}"
+    if ! grep -q "${SWAP_PATH}" /etc/fstab; then
+      echo "${SWAP_PATH} none swap sw 0 0" >> /etc/fstab
+    fi
+  fi
+fi
+
+if [[ "${ENABLE_UFW}" == "yes" ]]; then
+  ufw allow "${UFW_SSH_PORT}/tcp"
+  ufw allow 80/tcp
+  ufw allow 443/tcp
+  ufw --force enable
+fi
+
+if [[ "${ENABLE_FAIL2BAN}" == "yes" ]]; then
+  systemctl enable --now fail2ban
+fi
+
+if [[ "${ENABLE_UNATTENDED_UPGRADES}" == "yes" ]]; then
+  cat > /etc/apt/apt.conf.d/20auto-upgrades <<'EOF'
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Unattended-Upgrade "1";
+EOF
+  if systemctl list-unit-files | grep -q "^unattended-upgrades.service"; then
+    systemctl enable --now unattended-upgrades || true
+  fi
+fi
 
 systemctl enable --now nginx
 systemctl enable --now mariadb
+
+if [[ "${RUN_MYSQL_SECURE_INSTALLATION}" == "yes" ]]; then
+  mysql_secure_installation
+fi
 
 mysql -u root <<SQL
 CREATE DATABASE IF NOT EXISTS ${DB_NAME} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -191,30 +293,57 @@ systemctl reload nginx
 
 if [[ -n "${THEME_ZIP_PATH}" && -f "${THEME_ZIP_PATH}" ]]; then
   unzip -o "${THEME_ZIP_PATH}" -d "${SITE_ROOT}/wp-content/themes"
+  if [[ ! -d "${SITE_ROOT}/wp-content/themes/${THEME_SLUG}" ]]; then
+    warn "Theme folder '${THEME_SLUG}' not found after unzip. Check THEME_ZIP_PATH."
+  fi
+elif [[ -n "${THEME_ZIP_PATH}" ]]; then
+  warn "THEME_ZIP_PATH is set but file not found: ${THEME_ZIP_PATH}"
 fi
 
 if [[ -n "${CHILD_THEME_ZIP_PATH}" && -f "${CHILD_THEME_ZIP_PATH}" ]]; then
   unzip -o "${CHILD_THEME_ZIP_PATH}" -d "${SITE_ROOT}/wp-content/themes"
+  if [[ ! -d "${SITE_ROOT}/wp-content/themes/${CHILD_THEME_SLUG}" ]]; then
+    warn "Child theme folder '${CHILD_THEME_SLUG}' not found after unzip. Check CHILD_THEME_ZIP_PATH."
+  fi
+elif [[ -n "${CHILD_THEME_ZIP_PATH}" ]]; then
+  warn "CHILD_THEME_ZIP_PATH is set but file not found: ${CHILD_THEME_ZIP_PATH}"
 fi
 
-if [[ -d "${SITE_ROOT}/wp-content/themes/pets-grooming-child" ]]; then
-  wp theme activate pets-grooming-child --path="${SITE_ROOT}" --allow-root || true
-elif [[ -d "${SITE_ROOT}/wp-content/themes/pets-grooming" ]]; then
-  wp theme activate pets-grooming --path="${SITE_ROOT}" --allow-root || true
+if [[ -d "${SITE_ROOT}/wp-content/themes/${CHILD_THEME_SLUG}" ]]; then
+  wp theme activate "${CHILD_THEME_SLUG}" --path="${SITE_ROOT}" --allow-root || true
+elif [[ -d "${SITE_ROOT}/wp-content/themes/${THEME_SLUG}" ]]; then
+  wp theme activate "${THEME_SLUG}" --path="${SITE_ROOT}" --allow-root || true
 fi
 
-if [[ -n "${TRX_ADDONS_ZIP_PATH}" && -f "${TRX_ADDONS_ZIP_PATH}" ]]; then
-  wp plugin install "${TRX_ADDONS_ZIP_PATH}" --activate --path="${SITE_ROOT}" --allow-root || true
+resolved_trx_zip="${TRX_ADDONS_ZIP_PATH}"
+if [[ -z "${resolved_trx_zip}" && "${AUTO_FIND_BUNDLED_PLUGINS}" == "yes" ]]; then
+  resolved_trx_zip="$(find_bundled_zip trx_addons || true)"
+fi
+
+if [[ -n "${resolved_trx_zip}" && -f "${resolved_trx_zip}" ]]; then
+  wp plugin install "${resolved_trx_zip}" --activate --path="${SITE_ROOT}" --allow-root || true
 elif [[ "${INSTALL_TRX_ADDONS}" == "yes" ]]; then
-  wp plugin install trx_addons --activate --path="${SITE_ROOT}" --allow-root || true
+  warn "ThemeREX Addons zip not found. Set TRX_ADDONS_ZIP_PATH or use bundled plugins.zip."
 fi
 
-if [[ -n "${THEMEREX_UPDATER_ZIP_PATH}" && -f "${THEMEREX_UPDATER_ZIP_PATH}" ]]; then
-  wp plugin install "${THEMEREX_UPDATER_ZIP_PATH}" --activate --path="${SITE_ROOT}" --allow-root || true
+resolved_updater_zip="${THEMEREX_UPDATER_ZIP_PATH}"
+if [[ -z "${resolved_updater_zip}" && "${AUTO_FIND_BUNDLED_PLUGINS}" == "yes" ]]; then
+  resolved_updater_zip="$(find_bundled_zip themerex-updater || true)"
+  if [[ -z "${resolved_updater_zip}" ]]; then
+    resolved_updater_zip="$(find_bundled_zip trx_updater || true)"
+  fi
+fi
+
+if [[ -n "${resolved_updater_zip}" && -f "${resolved_updater_zip}" ]]; then
+  wp plugin install "${resolved_updater_zip}" --activate --path="${SITE_ROOT}" --allow-root || true
 fi
 
 if [[ -n "${PLUGINS_TO_INSTALL}" ]]; then
   for plugin in ${PLUGINS_TO_INSTALL}; do
+    if [[ "${plugin}" == "trx_addons" || "${plugin}" == "themerex-updater" || "${plugin}" == "trx_updater" ]]; then
+      warn "Skipping '${plugin}' from PLUGINS_TO_INSTALL. Use bundled zip paths instead."
+      continue
+    fi
     wp plugin install "${plugin}" --activate --path="${SITE_ROOT}" --allow-root || true
   done
 fi

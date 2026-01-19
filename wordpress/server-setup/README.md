@@ -40,10 +40,31 @@ After install
 - Import demo content (Theme Panel > Theme Dashboard > Demo Data)
 - Configure WooCommerce, booking plugin, and notifications
 
+Cleanup (fresh install)
+- This removes the site files, database, and Nginx config.
+- Run as root:
+  sudo ./cleanup_wordpress.sh
+- You can control what gets removed by setting:
+  REMOVE_SITE=yes|no, REMOVE_DB=yes|no, REMOVE_NGINX=yes|no
+- Optional cleanup overrides:
+  DB_ROOT_USER, DB_ROOT_PASS, DRY_RUN
+- Optional backups before cleanup:
+  BACKUP_BEFORE_CLEANUP=yes, BACKUP_DIR=/var/backups/swagcuts
+  BACKUP_DB=yes|no, BACKUP_SITE=yes|no, BACKUP_SITE_PATH=/var/www/swagcuts/wp-content
+
+Static IP (optional)
+- Set values in install.env:
+  STATIC_CONN, STATIC_IFACE, STATIC_IP, STATIC_PREFIX, STATIC_GATEWAY, STATIC_DNS
+- Run as root:
+  sudo ./set_static_ip.sh
+
 Notes
 - SSL will fail if swagcuts.com does not point to your VM yet. Keep ENABLE_SSL=no for local dev.
 - For local dev, set WP_URL to your VM IP (example: http://192.168.68.2) and set DEV_HOSTS to include the IP and localhost.
 - If the site redirects to 127.0.0.1, update WP_URL and re-run the installer.
 - To auto-install extra plugins, set PLUGINS_TO_INSTALL to space-separated WP.org slugs in install.env.
+- ThemeREX Addons is not on WP.org; use TRX_ADDONS_ZIP_PATH or AUTO_FIND_BUNDLED_PLUGINS=yes.
 - If WP asks for FTP credentials, set WP_FS_METHOD=direct and re-run the installer.
 - This script is idempotent: re-running it will not destroy existing data.
+- Optional baseline setup is controlled by:
+  SET_TIMEZONE, ENABLE_UFW, UFW_SSH_PORT, ENABLE_FAIL2BAN, ENABLE_UNATTENDED_UPGRADES, SWAP_SIZE, RUN_MYSQL_SECURE_INSTALLATION
