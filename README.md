@@ -6,6 +6,11 @@ Responsive grooming website with booking, pricing, policy pages, and SEO-ready b
 - Custom API lives in `server/` (no dependencies required).
 - Architecture notes live in `docs/ARCHITECTURE.md`.
 
+## WordPress (theme-based)
+- VM installer + Nginx config: `wordpress/server-setup`
+- Deploy bundle (wp-content sync): `wordpress/deploy`
+- Theme package backup: `wordpress/website-templates-backup`
+
 ## API (custom)
 Run locally:
 ```

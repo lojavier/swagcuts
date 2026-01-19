@@ -1,0 +1,2 @@
+# Prevent line-ending normalization for vendor theme backups
+wordpress/website-templates-backup/** -text
