@@ -1,0 +1,158 @@
+/* WooCommerce responsive styles
+----------------------------------------------------------------- */
+@import "../../../../css/_mixins.scss";
+@import "../../../../css/_theme-vars.scss";
+@import "../../css/_skin-vars.scss";
+
+
+@media #{$media_lg} {
+    // Grid
+    @for $i from 5 through 6 {
+        .woocommerce ul.products.columns-#{$i},
+        .woocommerce-page ul.products.columns-#{$i} {
+            li.product {
+                width: 25%;
+            }
+        }
+    }
+    
+    // Single - Tabs
+    .woocommerce div.product .woocommerce-tabs ul.tabs {
+        column-gap: 40px;
+        margin: 0 0 30px;
+    }
+    
+    // Single - Related
+    .woocommerce div.product {
+        .related,
+        .upsells {
+            h2 {
+                margin-bottom: 1em;
+            }
+        }
+    }
+}
+
+
+@media #{$media_mobile_768} {
+    // Table
+    .woocommerce,
+    .woocommerce-page {
+        table.shop_table_responsive {
+            tr td {
+                padding-left: 0;
+                padding-right: 0;
+                border-width: 0;
+                &.product-quantity {
+                    @include flex;
+                    @include flex-justify-content(space-between);
+                    gap: 5px;
+                }
+                &.mobile_cell:before {
+                    display: none;
+                }
+                &:before {
+                    color: var(--theme-color-title);
+                }
+            }
+            &.cart > tbody {
+                > tr + tr {
+                    border-top: 1px solid var(--theme-color-bd_color);
+                }
+                > tr:first-child > td {
+                    padding-top: 0;
+                }
+            }
+        }
+    }
+
+    // Coupon
+    .woocommerce #content,
+    .woocommerce,
+    .woocommerce-page #content,
+    .woocommerce-page {
+        table.cart td.actions .coupon {
+            padding-bottom: 6px;
+            .button,
+            .input-text,
+            input {
+                width: calc(50% - 3px);
+            }
+            &:before,
+            &:after {
+                display: none;
+            }
+        }
+    }
+}
+
+@media #{$media_sm} {
+    // Grid
+    @for $i from 3 through 6 {
+        .woocommerce ul.products.columns-#{$i},
+        .woocommerce-page ul.products.columns-#{$i} {
+            li.product {
+                width: 50%;
+            }
+        }
+    }
+
+    // Table
+    .woocommerce #content,
+    .woocommerce,
+    .woocommerce-page #content,
+    .woocommerce-page {
+        table.cart td.actions .coupon {
+            @include flex-wrap(wrap);
+            .button,
+            .input-text,
+            input {
+                width: 100%;
+            }
+        }
+    }
+
+    // Coupon
+    .woocommerce form.checkout_coupon {
+        .form-row-first,
+        .form-row-last {
+            width: 100%;
+            float: none;
+        }
+        .form-row-first + .form-row-last {
+            margin-top: 5px;
+        }
+        .form-row-last button {
+            width: 100%;
+        }
+    }
+
+    // Single - Tabs
+    .woocommerce div.product .woocommerce-tabs ul.tabs {
+        column-gap: 30px;
+        row-gap: 10px;
+        margin: 0 0 30px;
+        li a {
+            padding: 0 0 5px;
+        }
+    }
+
+    // Single - Reviews
+    .woocommerce #reviews #comments ol.commentlist li {
+        img.avatar {
+            width: 50px;
+        }
+        .comment-text {
+            margin: 0 0 0 65px;
+        }
+    } 
+}
+
+
+@media #{$media_xs} {
+    // Grid
+    .woocommerce ul.products[class*="columns-"] li.product,
+    .woocommerce-page ul.products[class*="columns-"] li.product {
+        width: 100%;
+    }
+}

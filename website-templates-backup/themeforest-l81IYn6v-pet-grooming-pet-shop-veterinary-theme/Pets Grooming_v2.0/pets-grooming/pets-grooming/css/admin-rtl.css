@@ -1,0 +1,133 @@
+/* About Theme */
+.pets_grooming_about {
+	margin: 2em 0 0 2em;
+}
+
+/* Theme Options */
+.pets_grooming_options_item[class*="column-"] {
+	padding: 1.25em 0 1.25em 2em;
+}
+.pets_grooming_list_choice_item {
+	margin-left: 20px;
+	margin-right: 0;
+}
+.pets_grooming_options_header {
+	margin: 1em 0 0 20px;
+}
+.pets_grooming_options_title {
+	float: right;
+}
+.pets_grooming_options_item_info {
+	border-right: 0 !important;
+}
+.pets_grooming_options_item_title {
+	padding-left: 30px;
+	padding-right: 0;
+}
+.pets_grooming_options_item_info .pets_grooming_options_item_title,
+[class*="pets_grooming_column-"] .pets_grooming_options_item_title,
+[class*="pets_grooming_column-"] .pets_grooming_options_item_data {
+	text-align: right;
+}
+.pets_grooming_range_slider_value {
+	margin-left: 10px !important;
+	margin-right: 0 !important;
+}
+.pets_grooming_options_buttons {
+	float: left;
+	text-align: left;
+}
+.pets_grooming_options .pets_grooming_options_button:before {
+	margin: -1px 0 0 0.3em;
+}
+div.pets_grooming_tabs_vertical > ul.ui-tabs-nav > li.ui-state-active {
+	border-right: 3px solid #11a0d2;
+	border-left: 0;
+}
+div.pets_grooming_tabs_vertical > ul.ui-tabs-nav > li.ui-state-active > a.ui-tabs-anchor {
+	right: 1px;
+	left: auto;
+	padding-right: 10px;
+	padding-left: 13px;
+}
+div.pets_grooming_tabs > ul.ui-tabs-nav > li > a > i[class*="dashicons-"],
+div.pets_grooming_tabs > ul.ui-tabs-nav > li > a > i[class*="icon-"] {
+	margin: 0 0 0 0.5em;
+}
+div.pets_grooming_tabs_vertical > ul.ui-tabs-nav > li.pets_grooming_tabs_title_super > a.ui-tabs-anchor {
+	padding-left: 2em;
+	padding-right: 13px;
+}
+div.pets_grooming_tabs_vertical > ul.ui-tabs-nav > li.pets_grooming_tabs_title_super:after {
+	content: '\e858';
+	left: 12px;
+	right: auto;
+}
+div.pets_grooming_tabs_vertical > ul.ui-tabs-nav > li.pets_grooming_tabs_title_sub > a.ui-tabs-anchor,
+div.pets_grooming_tabs_vertical > ul.ui-tabs-nav > li.pets_grooming_tabs_title_sub.ui-state-active > a.ui-tabs-anchor {
+	padding: 0.6em 2.95em 0.6em 0.6em;
+}
+.pets_grooming_range_slider_units {
+	margin-right: -8px;
+	margin-left: 0;
+}
+.pets_grooming_options_item_radio .pets_grooming_options_item_holder,
+.pets_grooming_options input[type="radio"] + .pets_grooming_options_item_holder {
+	margin-left: 0.5em;
+	margin-right: 0;
+}
+.pets_grooming_options_item_radio .pets_grooming_options_item_label {
+	margin: 0 0 0 1em;
+}
+.pets_grooming_checklist.pets_grooming_sortable .pets_grooming_checklist_item_label {
+	padding: 6px 6px 6px 2.5em;
+}
+.pets_grooming_options_item_checkbox input[type="checkbox"],
+.pets_grooming_options_item_checklist input[type="checkbox"] {
+	margin-left: 0.5em;
+	margin-right: 0;
+}
+.pets_grooming_options_item_checkbox input[type="checkbox"]:checked:before,
+.pets_grooming_options_item_checklist input[type="checkbox"]:checked:before {
+	right: 50%;
+	left: auto;
+	-webkit-transform: translate(50%, -50%);
+	-ms-transform: translate(50%, -50%);
+	transform: translate(50%, -50%);
+}
+.pets_grooming_checklist.pets_grooming_sortable .pets_grooming_checklist_item_label:after {
+	left: 12px;
+	right: auto;
+}
+.pets_grooming_scheme_editor_scheme {
+	padding-left: 105px;
+	padding-right: 0;
+}
+.pets_grooming_scheme_editor_controls {
+	left: 0;
+	right: auto;
+}
+.pets_grooming_scheme_editor_control {
+	margin-right: 2px;
+	margin-left: 0;
+}
+.pets_grooming_options_inherit_off .pets_grooming_options_inherit_lock {
+	left: 4px;
+	right: auto;
+}
+.pets_grooming_options_inherit_lock {
+	left: 2px;
+	right: auto;
+}
+.pets_grooming_options_item_image .pets_grooming_media_selector,
+.pets_grooming_options_item_media .pets_grooming_media_selector,
+.pets_grooming_options_item_audio .pets_grooming_media_selector,
+.pets_grooming_options_item_video .pets_grooming_media_selector {
+	float: none !important;
+}
+
+@media (min-width: 601px) {
+	.pets_grooming_options_header.sticky {
+		margin: 0 -20px 0 0;
+	}
+}

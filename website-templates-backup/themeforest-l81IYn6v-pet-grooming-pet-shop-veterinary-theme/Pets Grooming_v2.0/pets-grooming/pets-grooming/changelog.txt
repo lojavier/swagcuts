@@ -1,0 +1,227 @@
+Version 2.0.0
+    Updated:
+        - Theme сore
+        - Theme content
+        - Theme design
+        - Theme documentation
+
+    Changed:
+        - Theme Builder - Elementor
+
+    Removed:
+        - Essential Grid
+        - Contact Form 7
+        - MC4WP: Mailchimp for WordPress
+        - QuickCal
+        - Slider Revolution
+
+    Added:
+        - MetForm
+
+Version 1.3.4
+    Added:
+        - WP 6.8.2 compatibility
+
+    Fixed:
+        - Theme styles
+        - Update plugins to their latest versions
+
+    Changed:
+        - Update demo data
+
+Version 1.3.3
+    Added:
+    - WP 6.7.2 compatibility
+
+    Fixed:
+    - Theme styles
+
+Version 1.3.2.1
+    Fixed:
+        - Theme scripts
+
+Version 1.3.2
+    Added:
+        - WP 6.6.2 compatibility
+
+    Fixed:
+        - Update plugins to their latest versions
+
+    Changed:
+        - Update demo data
+
+Version 1.3.1
+    Added:
+        - WP 6.5.4 compatibility
+
+    Fixed:
+        - Update plugins to their latest versions
+
+    Changed:
+        - Update demo data
+
+    Removed:
+        - elegro Crypto Payment plugin
+
+Version 1.3.0
+    Added:
+        - WP 6.4.3 compatibility
+        - QuickCal plugin
+        - Compatibility with The GDPR Framework plugin
+
+    Fixed:
+        - Theme styles
+
+    Removed:
+        - Booked plugin
+        - Cookie Information plugin
+
+Version 1.2.7
+    Added:
+        - WP 6.3.1 compatibility
+        - TikTok Icons
+        - Compatibility with QuickCal plugin
+
+    Fixed:
+        - Theme styles
+
+Version 1.2.6
+    Added:
+        - WP 6.2.2 compatibility
+
+    Fixed:
+        - Theme styles
+
+Version 1.2.5
+    Added:
+        - Compatibility with Essential Grid 3.0.17
+
+Version 1.2.4
+    Added:
+    - WP 6.1.1 compatibility
+
+    Fixed:
+    - Theme styles
+
+Version 1.2.3
+    Added:
+        - WP 6.0.2 compatibility
+
+    Fixed:
+        - Update plugins to their latest versions
+
+    Changed:
+        - Update demo data
+
+Version 1.2.2
+    Added:
+        - WP 6.0 compatibility
+
+    Fixed:
+        - Update plugins to their latest versions
+
+    Changed:
+        - Update demo data
+
+Version 1.2.1
+    Added:
+        - WP 5.8 compatibility
+        - PHP 8.0 compatibility
+        - Service Plus page
+
+    Fixed:
+        - Theme styles
+
+    Changed:
+        - Theme content
+
+Version 1.2.0
+     Added:
+        - Home 3 page
+        - New slider
+        - New header template
+
+Version 1.1.4
+    Fixed:
+        - Update plugins to their latest versions
+
+    Added:
+        - ThemeREX Updater plugin
+
+Version 1.1.3
+    Fixed:
+        - Compatibility with WP 5.3
+        - Update plugins to their latest versions
+
+    Changed:
+        - Reviews, views, likes, googlemap moved to ThemeREX Utilities plugin
+
+Version 1.1.2
+    Fixed:
+        - Compatibility with PHP7.3
+        - Compatibility with WP 5.2.2
+        - Compatibility with WooCommerce 3.6.5
+        - Compatibility with Slider Revolution 6+
+        - Update plugins to their latest versions
+
+    Changed:
+        - All shortcodes moved to ThemeREX Utilities plugin
+
+Version 1.1.1
+    Fixed:
+        - Scripts libraries updated
+        - Compatibility with PHP7.2
+        - Update plugins to their latest versions
+
+Version 1.1
+    Added:
+        - Cookie Information plugin
+        - Contact Form 7 plugin
+        - Alert to Demo data installation
+        - Privacy Policy page
+
+    Fixed:
+        - Compatibility with Gutenberg and other PageBuilders
+        - Compatibility with Wordpress 4.9.8
+        - Compatibility with Woocommerce 3.4.4
+        - Update plugins to their latest versions
+        - Products quantity output in cart
+        - Improve theme styles
+        - Update documentation
+
+    Changed:
+        - Make forms GDPR-compliant
+        - Move Importer to ThemeREX Utilities plugin
+
+Version 1.0.6
+    Fixed:
+        - Team shortcode
+        - Update TRX Utils plugin
+
+Version 1.0.5
+    Added:
+        - Email and phone number in footer are clickable now
+
+    Changed:
+        - Displaying of testimonials on mobile devices
+
+    Fixed:
+        - The problem of login form translation
+
+Version 1.0.4
+    * WordPress 4.9.1 ready
+    * plugins updated 
+
+Version 1.0.3
+    * plugins updated
+
+Version 1.0.2
+    * visual composer issue fixed
+    * plugins updated
+
+Version 1.0.1
+    * demo data update
+    * styles improved
+
+Version 1.0
+    * release
