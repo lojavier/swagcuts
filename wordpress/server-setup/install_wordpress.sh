@@ -23,6 +23,8 @@ SITE_ROOT="${SITE_ROOT:-/var/www/swagcuts}"
 DB_NAME="${DB_NAME:-swagcuts_wp}"
 DB_USER="${DB_USER:-swagcuts}"
 DB_PASS="${DB_PASS:-}"
+DB_ROOT_USER="${DB_ROOT_USER:-root}"
+DB_ROOT_PASS="${DB_ROOT_PASS:-}"
 WP_TITLE="${WP_TITLE:-Swag Cuts Grooming}"
 WP_ADMIN_USER="${WP_ADMIN_USER:-}"
 WP_ADMIN_PASS="${WP_ADMIN_PASS:-}"
@@ -48,6 +50,11 @@ PHP_MEMORY_LIMIT="${PHP_MEMORY_LIMIT:-256M}"
 PHP_POST_MAX_SIZE="${PHP_POST_MAX_SIZE:-32M}"
 PHP_UPLOAD_MAX_FILESIZE="${PHP_UPLOAD_MAX_FILESIZE:-32M}"
 PHP_MAX_INPUT_VARS="${PHP_MAX_INPUT_VARS:-3000}"
+PHP_OPCACHE_ENABLE="${PHP_OPCACHE_ENABLE:-1}"
+PHP_OPCACHE_MEMORY_CONSUMPTION="${PHP_OPCACHE_MEMORY_CONSUMPTION:-128}"
+PHP_OPCACHE_MAX_ACCELERATED_FILES="${PHP_OPCACHE_MAX_ACCELERATED_FILES:-10000}"
+PHP_OPCACHE_VALIDATE_TIMESTAMPS="${PHP_OPCACHE_VALIDATE_TIMESTAMPS:-1}"
+PHP_OPCACHE_REVALIDATE_FREQ="${PHP_OPCACHE_REVALIDATE_FREQ:-2}"
 SET_TIMEZONE="${SET_TIMEZONE:-}"
 ENABLE_UFW="${ENABLE_UFW:-no}"
 UFW_SSH_PORT="${UFW_SSH_PORT:-22}"
@@ -56,6 +63,10 @@ ENABLE_UNATTENDED_UPGRADES="${ENABLE_UNATTENDED_UPGRADES:-no}"
 SWAP_SIZE="${SWAP_SIZE:-}"
 SWAP_PATH="${SWAP_PATH:-/swapfile}"
 RUN_MYSQL_SECURE_INSTALLATION="${RUN_MYSQL_SECURE_INSTALLATION:-no}"
+SKIP_APT_UPGRADE="${SKIP_APT_UPGRADE:-no}"
+NGINX_FASTCGI_READ_TIMEOUT="${NGINX_FASTCGI_READ_TIMEOUT:-300}"
+NGINX_FASTCGI_SEND_TIMEOUT="${NGINX_FASTCGI_SEND_TIMEOUT:-300}"
+PLUGIN_INSTALL_RETRIES="${PLUGIN_INSTALL_RETRIES:-2}"
 BUNDLED_TMP_DIR=""
 
 prompt_if_empty() {
@@ -84,6 +95,34 @@ log() {
 
 warn() {
   echo "Warning: $*" >&2
+}
+
+run_mysql() {
+  local sql="$1"
+  if [[ -n "${DB_ROOT_PASS}" ]]; then
+    MYSQL_PWD="${DB_ROOT_PASS}" mysql -u "${DB_ROOT_USER}" <<<"${sql}"
+  else
+    mysql -u "${DB_ROOT_USER}" <<<"${sql}"
+  fi
+}
+
+install_plugin_with_retries() {
+  local plugin_ref="$1"
+  local attempts="${PLUGIN_INSTALL_RETRIES}"
+  local attempt=1
+
+  while true; do
+    if wp plugin install "${plugin_ref}" --activate --path="${SITE_ROOT}" --allow-root; then
+      return 0
+    fi
+    if (( attempt >= attempts )); then
+      warn "Plugin install failed: ${plugin_ref}"
+      return 1
+    fi
+    warn "Retrying plugin install (${attempt}/${attempts}): ${plugin_ref}"
+    attempt=$((attempt + 1))
+    sleep 2
+  done
 }
 
 cleanup_tmp() {
@@ -136,7 +175,10 @@ if [[ "$ENABLE_SSL" == "yes" ]]; then
   prompt_if_empty LE_EMAIL "Enter Let's Encrypt email" no
 fi
 
-apt update && apt upgrade -y
+apt update
+if [[ "${SKIP_APT_UPGRADE}" != "yes" ]]; then
+  apt upgrade -y
+fi
 apt install -y nginx mariadb-server php-fpm php-cli php-mysql php-xml php-gd php-curl php-zip php-mbstring php-intl php-opcache php-bcmath unzip curl rsync git ufw fail2ban unattended-upgrades
 
 if [[ -n "${SET_TIMEZONE}" ]] && command -v timedatectl >/dev/null 2>&1; then
@@ -183,13 +225,11 @@ if [[ "${RUN_MYSQL_SECURE_INSTALLATION}" == "yes" ]]; then
   mysql_secure_installation
 fi
 
-mysql -u root <<SQL
-CREATE DATABASE IF NOT EXISTS ${DB_NAME} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+run_mysql "CREATE DATABASE IF NOT EXISTS ${DB_NAME} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE USER IF NOT EXISTS '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASS}';
 ALTER USER '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASS}';
 GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'localhost';
-FLUSH PRIVILEGES;
-SQL
+FLUSH PRIVILEGES;"
 
 mkdir -p "${SITE_ROOT}"
 if [[ ! -f "${SITE_ROOT}/wp-settings.php" ]]; then
@@ -267,6 +307,11 @@ memory_limit = ${PHP_MEMORY_LIMIT}
 post_max_size = ${PHP_POST_MAX_SIZE}
 upload_max_filesize = ${PHP_UPLOAD_MAX_FILESIZE}
 max_input_vars = ${PHP_MAX_INPUT_VARS}
+opcache.enable = ${PHP_OPCACHE_ENABLE}
+opcache.memory_consumption = ${PHP_OPCACHE_MEMORY_CONSUMPTION}
+opcache.max_accelerated_files = ${PHP_OPCACHE_MAX_ACCELERATED_FILES}
+opcache.validate_timestamps = ${PHP_OPCACHE_VALIDATE_TIMESTAMPS}
+opcache.revalidate_freq = ${PHP_OPCACHE_REVALIDATE_FREQ}
 EOF
 
 if [[ -d "${php_ini_dir}/cli/conf.d" ]]; then
@@ -284,6 +329,8 @@ sed \
   -e "s|{{PHP_FPM_SOCK}}|${php_sock}|g" \
   -e "s|{{DEV_HOSTS}}|${DEV_HOSTS}|g" \
   -e "s|{{CLIENT_MAX_BODY_SIZE}}|${NGINX_CLIENT_MAX_BODY_SIZE}|g" \
+  -e "s|{{FASTCGI_READ_TIMEOUT}}|${NGINX_FASTCGI_READ_TIMEOUT}|g" \
+  -e "s|{{FASTCGI_SEND_TIMEOUT}}|${NGINX_FASTCGI_SEND_TIMEOUT}|g" \
   "${nginx_template}" > "${nginx_conf}"
 
 rm -f /etc/nginx/sites-enabled/default
@@ -321,7 +368,7 @@ if [[ -z "${resolved_trx_zip}" && "${AUTO_FIND_BUNDLED_PLUGINS}" == "yes" ]]; th
 fi
 
 if [[ -n "${resolved_trx_zip}" && -f "${resolved_trx_zip}" ]]; then
-  wp plugin install "${resolved_trx_zip}" --activate --path="${SITE_ROOT}" --allow-root || true
+  install_plugin_with_retries "${resolved_trx_zip}" || true
 elif [[ "${INSTALL_TRX_ADDONS}" == "yes" ]]; then
   warn "ThemeREX Addons zip not found. Set TRX_ADDONS_ZIP_PATH or use bundled plugins.zip."
 fi
@@ -335,7 +382,7 @@ if [[ -z "${resolved_updater_zip}" && "${AUTO_FIND_BUNDLED_PLUGINS}" == "yes" ]]
 fi
 
 if [[ -n "${resolved_updater_zip}" && -f "${resolved_updater_zip}" ]]; then
-  wp plugin install "${resolved_updater_zip}" --activate --path="${SITE_ROOT}" --allow-root || true
+  install_plugin_with_retries "${resolved_updater_zip}" || true
 fi
 
 if [[ -n "${PLUGINS_TO_INSTALL}" ]]; then
@@ -344,7 +391,7 @@ if [[ -n "${PLUGINS_TO_INSTALL}" ]]; then
       warn "Skipping '${plugin}' from PLUGINS_TO_INSTALL. Use bundled zip paths instead."
       continue
     fi
-    wp plugin install "${plugin}" --activate --path="${SITE_ROOT}" --allow-root || true
+    install_plugin_with_retries "${plugin}" || true
   done
 fi
 
