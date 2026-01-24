@@ -44,6 +44,7 @@ THEMEREX_UPDATER_ZIP_PATH="${THEMEREX_UPDATER_ZIP_PATH:-}"
 INSTALL_TRX_ADDONS="${INSTALL_TRX_ADDONS:-no}"
 AUTO_FIND_BUNDLED_PLUGINS="${AUTO_FIND_BUNDLED_PLUGINS:-yes}"
 PLUGINS_TO_INSTALL="${PLUGINS_TO_INSTALL:-}"
+UPDATE_THEME_ON_INSTALL="${UPDATE_THEME_ON_INSTALL:-no}"
 PHP_MAX_EXECUTION_TIME="${PHP_MAX_EXECUTION_TIME:-600}"
 PHP_MAX_INPUT_TIME="${PHP_MAX_INPUT_TIME:-600}"
 PHP_MEMORY_LIMIT="${PHP_MEMORY_LIMIT:-256M}"
@@ -64,6 +65,9 @@ SWAP_SIZE="${SWAP_SIZE:-}"
 SWAP_PATH="${SWAP_PATH:-/swapfile}"
 RUN_MYSQL_SECURE_INSTALLATION="${RUN_MYSQL_SECURE_INSTALLATION:-no}"
 SKIP_APT_UPGRADE="${SKIP_APT_UPGRADE:-no}"
+INSTALL_GUEST_ADDITIONS_DEPS="${INSTALL_GUEST_ADDITIONS_DEPS:-no}"
+GUEST_ADDITIONS_INSTALLER_PATH="${GUEST_ADDITIONS_INSTALLER_PATH:-}"
+GUEST_ADDITIONS_INSTALLER_ARGS="${GUEST_ADDITIONS_INSTALLER_ARGS:-}"
 NGINX_FASTCGI_READ_TIMEOUT="${NGINX_FASTCGI_READ_TIMEOUT:-300}"
 NGINX_FASTCGI_SEND_TIMEOUT="${NGINX_FASTCGI_SEND_TIMEOUT:-300}"
 PLUGIN_INSTALL_RETRIES="${PLUGIN_INSTALL_RETRIES:-2}"
@@ -125,6 +129,19 @@ install_plugin_with_retries() {
   done
 }
 
+update_theme_if_requested() {
+  if [[ "${UPDATE_THEME_ON_INSTALL}" != "yes" ]]; then
+    return 0
+  fi
+  if ! wp theme is-installed "${THEME_SLUG}" --path="${SITE_ROOT}" --allow-root >/dev/null 2>&1; then
+    warn "Theme '${THEME_SLUG}' is not installed; skipping update."
+    return 0
+  fi
+  if ! wp theme update "${THEME_SLUG}" --path="${SITE_ROOT}" --allow-root; then
+    warn "Theme update failed. Ensure ThemeREX Updater is active and license is set."
+  fi
+}
+
 cleanup_tmp() {
   if [[ -n "${BUNDLED_TMP_DIR}" && -d "${BUNDLED_TMP_DIR}" ]]; then
     rm -rf "${BUNDLED_TMP_DIR}"
@@ -179,7 +196,22 @@ apt update
 if [[ "${SKIP_APT_UPGRADE}" != "yes" ]]; then
   apt upgrade -y
 fi
-apt install -y nginx mariadb-server php-fpm php-cli php-mysql php-xml php-gd php-curl php-zip php-mbstring php-intl php-opcache php-bcmath unzip curl rsync git ufw fail2ban unattended-upgrades
+
+# Virtual Machine Guest Additions prerequisites (optional)
+if [[ "${INSTALL_GUEST_ADDITIONS_DEPS}" == "yes" ]]; then
+  apt install -y bzip2 tar net-tools build-essential dkms "linux-headers-$(uname -r)"
+  if [[ -n "${GUEST_ADDITIONS_INSTALLER_PATH}" ]]; then
+    if [[ -x "${GUEST_ADDITIONS_INSTALLER_PATH}" ]]; then
+      "${GUEST_ADDITIONS_INSTALLER_PATH}" ${GUEST_ADDITIONS_INSTALLER_ARGS}
+    else
+      warn "Guest Additions installer not found or not executable: ${GUEST_ADDITIONS_INSTALLER_PATH}"
+    fi
+  else
+    warn "GUEST_ADDITIONS_INSTALLER_PATH is empty; skipping Guest Additions installer."
+  fi
+fi
+
+apt install -y nginx mariadb-server mariadb-client php-fpm php-cli php-mysql php-xml php-gd php-curl php-zip php-mbstring php-intl php-opcache php-bcmath unzip curl rsync git ufw fail2ban unattended-upgrades
 
 if [[ -n "${SET_TIMEZONE}" ]] && command -v timedatectl >/dev/null 2>&1; then
   timedatectl set-timezone "${SET_TIMEZONE}"
@@ -361,6 +393,8 @@ if [[ -d "${SITE_ROOT}/wp-content/themes/${CHILD_THEME_SLUG}" ]]; then
 elif [[ -d "${SITE_ROOT}/wp-content/themes/${THEME_SLUG}" ]]; then
   wp theme activate "${THEME_SLUG}" --path="${SITE_ROOT}" --allow-root || true
 fi
+
+update_theme_if_requested
 
 resolved_trx_zip="${TRX_ADDONS_ZIP_PATH}"
 if [[ -z "${resolved_trx_zip}" && "${AUTO_FIND_BUNDLED_PLUGINS}" == "yes" ]]; then
